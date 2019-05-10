@@ -89,5 +89,7 @@ t_ex_ret		init_magic64(t_file64 *file, void *ptr, size_t size)
 		return (FAILURE);
 	get_file_info(file);
 	// print_sections_table(file);
+	if (!(file->output_tab = (t_symbol64 *)ft_memalloc(file->symtab_lc->nsyms * sizeof(*file->symtab_lc))))
+		return (FAILURE);
 	return (SUCCESS);
 }

@@ -24,6 +24,7 @@ typedef struct	s_file64
 	struct mach_header_64	*header;
 	struct symtab_command	*symtab_lc;
 	struct section_64		**sections;
+	t_symbol64				*output_tab;
 	//synbols table
 }				t_file64;
 
