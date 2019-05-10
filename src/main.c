@@ -51,6 +51,13 @@
 // 	return rslt;
 // }
 
+static char		get_type_char(uint64_t type, void *ptr)
+{
+	(void)type;
+	(void)ptr;
+	return ('P');
+}
+
 static void		fill_symbols_tab(t_symbol64 *symbols_tab, struct symtab_command *sym, void *ptr)
 {
 	size_t			i;
@@ -64,6 +71,7 @@ static void		fill_symbols_tab(t_symbol64 *symbols_tab, struct symtab_command *sy
 	while (i < sym->nsyms)
 	{
 		symbols_tab[i].name = string_table + nlist[i].n_un.n_strx;
+		symbols_tab[i].type_char = get_type_char(nlist[i].n_type, ptr);
 		i++;
 	}
 }
@@ -75,7 +83,7 @@ static void		print_symbols_table(t_symbol64 *symbols_tab, size_t sym_count)
 	i = 0;
 	while (i < sym_count)
 	{
-		printf("%s\n", symbols_tab[i].name);
+		ft_printf("%c %s\n", symbols_tab[i].type_char ,symbols_tab[i].name);
 		i++;
 	}
 }
@@ -194,4 +202,4 @@ int		main(int ac, char **av)
 }
 
 // TODO:
-// - gerer les binaires compilés avec -g
+// - gerer les binaires compilés avec -g : N_STAB dans n_type ?
