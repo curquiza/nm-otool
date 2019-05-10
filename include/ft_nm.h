@@ -16,12 +16,19 @@ typedef struct  s_symbol64
 	// address
 }				t_symbol64;
 
-typedef struct	s_data
+typedef struct	s_file64
 {
-	//section
-	//flags
-	//header ?
-	//filename ?
-}				t_data;
+	void					*ptr;
+	size_t					size;
+	uint32_t				section_count;
+	struct mach_header_64	*header;
+	struct symtab_command	*symtab_lc;
+	struct section_64		**sections;
+	//synbols table
+}				t_file64;
+
+// Global avec :
+// - flags
+// - filename
 
 #endif
