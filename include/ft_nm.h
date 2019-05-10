@@ -31,4 +31,10 @@ typedef struct	s_file64
 // - flags
 // - filename
 
+/*
+** Function Prototypes
+*/
+
+t_ex_ret		init_magic64(t_file64 *file, void *ptr, size_t size);
+
 #endif
