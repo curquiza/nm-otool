@@ -6,6 +6,7 @@ CC = gcc $(FLAG)
 SRC_DIR = src
 SRC = $(addprefix $(SRC_DIR)/, \
 		magic64_init.c \
+		magic64_main.c \
 		main.c)
 
 OBJ_DIR = objs

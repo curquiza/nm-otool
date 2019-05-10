@@ -37,5 +37,6 @@ typedef struct	s_file64
 */
 
 t_ex_ret		init_magic64(t_file64 *file, void *ptr, size_t size);
+t_ex_ret		handle_magic_64(size_t size, void *ptr);
 
 #endif
