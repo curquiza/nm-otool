@@ -1,0 +1,7 @@
+a.out
+*.swp
+libft.a
+*.o
+ft_nm
+ft_otool
+.vscode
