@@ -76,4 +76,5 @@ int		main(int ac, char **av)
 }
 
 // TODO:
+// - check de la size à chaque fois
 // - gerer les binaires compilés avec -g : N_STAB dans n_type ?

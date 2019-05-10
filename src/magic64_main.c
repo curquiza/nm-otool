@@ -7,14 +7,14 @@ static char		get_type_char(uint64_t type, void *ptr)
 	return ('K');
 }
 
-static void		print_output_tab(t_symbol64 *tab, size_t sym_count)
+static void		print_symbols_output(t_symbol64 *output_tab, size_t sym_count)
 {
 	size_t	i;
 
 	i = 0;
 	while (i < sym_count)
 	{
-		ft_printf("%c %s\n", tab[i].type_char, tab[i].name);
+		ft_printf("%c %s\n", output_tab[i].type_char, output_tab[i].name);
 		i++;
 	}
 }
@@ -54,7 +54,7 @@ t_ex_ret	handle_magic_64(size_t size, void *ptr)
 		return (FAILURE);
 	}
 	get_symbols_output(&file);
-	print_output_tab(file.output_tab, file.symtab_lc->nsyms);
+	print_symbols_output(file.output_tab, file.symtab_lc->nsyms);
 	clean_magic64(&file);
 	return (SUCCESS);
 }
