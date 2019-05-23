@@ -18,7 +18,7 @@ typedef struct  s_symbol
 {
 	char		*name;
 	char		type_char;
-	// void 	*address
+	void 		*address;
 }				t_symbol;
 
 typedef struct	s_bin_file

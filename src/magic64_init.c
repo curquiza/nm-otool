@@ -33,7 +33,7 @@ static void		get_sections_indexes(t_bin_file *file, struct segment_command_64 *s
 		else if (ft_strcmp(section->sectname, SECT_BSS) == 0)
 			file->bss_index = current_sect_index + i;
 		i++;
-		section = (struct section_64 *) ((void *)section + i * sizeof(struct section_64)); //check size
+		section = (struct section_64 *) ((void *)section + sizeof(struct section_64)); //check size
 	}
 }
 
@@ -119,9 +119,9 @@ t_ex_ret		init_magic64(t_bin_file *file, void *ptr, size_t size)
 	if (!(file->symbols = (t_symbol *)ft_memalloc(file->symtab_lc->nsyms * sizeof(*file->symtab_lc))))
 		return (FAILURE);
 
-	ft_printf("index text = %d\n", file->text_index);
-	ft_printf("index data = %d\n", file->data_index);
-	ft_printf("index bss = %d\n", file->bss_index);
+	// ft_printf("index text = %d\n", file->text_index);
+	// ft_printf("index data = %d\n", file->data_index);
+	// ft_printf("index bss = %d\n", file->bss_index);
 
 	return (SUCCESS);
 }

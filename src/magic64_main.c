@@ -1,12 +1,11 @@
 #include "ft_nm.h"
 
-char        get_type_char(uint64_t value, uint8_t type, t_bin_file *file)
+char        get_type_char(uint64_t value, uint8_t type, uint8_t n_sect, t_bin_file *file)
 {
     uint8_t mask;
     unsigned char type_char;
-    (void)file;
-    // printf("%d ", type);
 
+	type_char = 0;
     // debug, see stab.h afer
     if (type & N_STAB)
         return ('-');
@@ -35,7 +34,13 @@ char        get_type_char(uint64_t value, uint8_t type, t_bin_file *file)
     }
     if (mask == N_SECT)
     {
-        type_char = 'S'; // T ou D ou B
+        type_char = 'S';
+		if (n_sect == file->text_index)
+			type_char = 'T';
+		else if (n_sect == file->data_index)
+			type_char = 'D';
+		else if (n_sect == file->bss_index)
+			type_char = 'B';
     }
 	if (mask == N_UNDF && value != 0)
 	{
@@ -71,7 +76,7 @@ static void	get_symbols_output(t_bin_file *file)
 	while (i < file->symtab_lc->nsyms)
 	{
 		file->symbols[i].name = string_table + nlist[i].n_un.n_strx;
-		file->symbols[i].type_char = get_type_char(nlist[i].n_value, nlist[i].n_type, file);
+		file->symbols[i].type_char = get_type_char(nlist[i].n_value, nlist[i].n_type, nlist[i].n_sect, file);
 		i++;
 	}
 }
