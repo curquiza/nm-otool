@@ -1,6 +1,6 @@
 #include "ft_nm.h"
 
-char        get_type_char(uint8_t type, t_bin_file *file)
+char        get_type_char(uint64_t value, uint8_t type, t_bin_file *file)
 {
     uint8_t mask;
     unsigned char type_char;
@@ -13,7 +13,7 @@ char        get_type_char(uint8_t type, t_bin_file *file)
 
     // limited global scope ??
     if (type & N_PEXT)
-        return ('?');
+        return (' ');
 
     // type of the symbol
     mask = type & N_TYPE;
@@ -27,16 +27,20 @@ char        get_type_char(uint8_t type, t_bin_file *file)
     }
     if (mask == N_PBUD)
     {
-        type_char = '?';
+        type_char = 'P';
     }
     if (mask == N_INDR)
     {
-        type_char = '?'; // symbol is the same as another symbol, n_value field is an index into the string table specifying the name of the other symbol.
+        type_char = 'I';
     }
     if (mask == N_SECT)
     {
-        type_char = 'T'; // T ou D ou B
+        type_char = 'S'; // T ou D ou B
     }
+	if (mask == N_UNDF && value != 0)
+	{
+		type_char = 'C';
+	}
 
     if (!(type & N_EXT)) // local symbol --> minuscule
         type_char ^= TOGGLE_CASE;
@@ -67,7 +71,7 @@ static void	get_symbols_output(t_bin_file *file)
 	while (i < file->symtab_lc->nsyms)
 	{
 		file->symbols[i].name = string_table + nlist[i].n_un.n_strx;
-		file->symbols[i].type_char = get_type_char(nlist[i].n_type, file);
+		file->symbols[i].type_char = get_type_char(nlist[i].n_value, nlist[i].n_type, file);
 		i++;
 	}
 }

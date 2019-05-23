@@ -10,6 +10,9 @@
 # include <mach-o/nlist.h>
 
 # define TOGGLE_CASE	32
+// # define SECT_TEXT		"__text"
+// # define SECT_DATA		"__got"
+// # define SECT_BSS		"__bss"
 
 typedef struct  s_symbol
 {
@@ -21,15 +24,13 @@ typedef struct  s_symbol
 typedef struct	s_bin_file
 {
 	void					*ptr;
-	// void					*end;
 	size_t					size;
-	// uint32_t				magic_number;
-	uint32_t				section_count;
-	// struct mach_header_64	*header;
+	// uint32_t				section_count;
 	struct symtab_command	*symtab_lc; //generique ?
-	// struct section_64		**sections;
 	t_symbol				*symbols;
-	//synbols table
+	uint8_t					text_index;
+	uint8_t					data_index;
+	uint8_t					bss_index;
 }				t_bin_file;
 
 // Global avec :
