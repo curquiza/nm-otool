@@ -1,6 +1,6 @@
 #include "ft_nm.h"
 
-t_ex_ret	ft_nm(size_t size, void *ptr)
+t_ex_ret	ft_nm(size_t size, void *ptr, char *filename)
 {
 	uint32_t	magic_number;
 
@@ -11,8 +11,8 @@ t_ex_ret	ft_nm(size_t size, void *ptr)
 	}
 	else if (magic_number == MH_MAGIC_64)
 	{
-		ft_printf("MAGIC 64 bits\n");
-		return (handle_magic_64(size, ptr));
+		// ft_printf("MAGIC 64 bits\n");
+		return (handle_magic_64(size, ptr, filename));
 	}
 	else if (magic_number == MH_CIGAM)
 	{
@@ -62,7 +62,7 @@ int		main(int ac, char **av)
 		return (FAILURE);
 	}
 
-	ret = ft_nm(buf.st_size, ptr);
+	ret = ft_nm(buf.st_size, ptr, av[1]);
 
 	if (munmap(ptr, buf.st_size) < 0)
 	{
@@ -74,7 +74,3 @@ int		main(int ac, char **av)
 
 	return (ret);
 }
-
-// TODO:
-// - check de la size à chaque fois
-// - gerer les binaires compilés avec -g : N_STAB dans n_type ?

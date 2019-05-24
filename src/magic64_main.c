@@ -62,27 +62,39 @@ static void		print_symbols_output(t_symbol *symbols, size_t sym_count)
 		if (symbols[i].type_char == 'U' || symbols[i].type_char == 'u')
 			ft_printf("%18c %s\n", symbols[i].type_char, symbols[i].name);
 		else
-			ft_printf("%.16x %c %s\n", symbols[i].value, symbols[i].type_char, symbols[i].name);
+			ft_printf("%.16llx %c %s\n", symbols[i].value, symbols[i].type_char, symbols[i].name);
 		i++;
 	}
 }
 
-static void	get_symbols_output(t_bin_file *file)
+static t_ex_ret	get_symbols_output(t_bin_file *file)
 {
 	size_t			i;
 	char			*string_table;
 	struct nlist_64	*nlist;
 
-	nlist = file->ptr + file->symtab_lc->symoff; //check size
-	string_table = file->ptr + file->symtab_lc->stroff; //check size
+	// nlist = (struct nlist_64 *) ((void *)file->ptr + file->symtab_lc->symoff); //check size
+	nlist = (struct nlist_64 *)check_and_move(file, (void *)file->ptr
+		+ file->symtab_lc->symoff, sizeof(*nlist) * file->symtab_lc->nsyms); //check size
+	if (!nlist)
+		return (ft_ret_err2(file->filename, VALID_OBJ_ERR));
+	// string_table = file->ptr + file->symtab_lc->stroff; //check size
+	string_table = check_and_move(file, file->ptr + file->symtab_lc->stroff, sizeof(*string_table)); //check size
+	if (!string_table)
+		return (ft_ret_err2(file->filename, VALID_OBJ_ERR));
 	i = 0;
 	while (i < file->symtab_lc->nsyms)
 	{
-		file->symbols[i].name = string_table + nlist[i].n_un.n_strx;
+		// file->symbols[i].name = string_table + nlist[i].n_un.n_strx;
+		file->symbols[i].name = check_and_move(file, string_table
+			+ nlist[i].n_un.n_strx, sizeof(*file->symbols[i].name));
+		if (!file->symbols[i].name)
+			return (ft_ret_err2(file->filename, VALID_OBJ_ERR));
 		file->symbols[i].type_char = get_type_char(nlist[i].n_value, nlist[i].n_type, nlist[i].n_sect, file);
 		file->symbols[i].value = nlist[i].n_value;
 		i++;
 	}
+	return (SUCCESS);
 }
 
 static void	clean_magic64(t_bin_file *file)
@@ -91,16 +103,16 @@ static void	clean_magic64(t_bin_file *file)
 	file->symbols = NULL;
 }
 
-t_ex_ret	handle_magic_64(size_t size, void *ptr)
+t_ex_ret	handle_magic_64(size_t size, void *ptr, char *filename)
 {
 	t_bin_file	file;
 
-	if (init_magic64(&file, ptr, size) == FAILURE)
+	if (init_magic64(&file, ptr, size, filename) == FAILURE
+		|| get_symbols_output(&file) == FAILURE)
 	{
 		clean_magic64(&file);
 		return (FAILURE);
 	}
-	get_symbols_output(&file);
 	sort_symbols(&file);
 	print_symbols_output(file.symbols, file.symtab_lc->nsyms);
 	clean_magic64(&file);
