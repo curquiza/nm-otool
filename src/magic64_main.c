@@ -1,6 +1,6 @@
 #include "ft_nm.h"
 
-char        get_type_char(uint64_t value, uint8_t type, uint8_t n_sect, t_bin_file *file)
+static char        get_type_char(uint64_t value, uint8_t type, uint8_t n_sect, t_bin_file *file)
 {
     uint8_t mask;
     unsigned char type_char;
@@ -101,9 +101,6 @@ t_ex_ret	handle_magic_64(size_t size, void *ptr)
 		return (FAILURE);
 	}
 	get_symbols_output(&file);
-	ft_printf("BEFORE:\n");
-	print_symbols_output(file.symbols, file.symtab_lc->nsyms);
-	ft_printf("AFTER:\n");
 	sort_symbols(&file);
 	print_symbols_output(file.symbols, file.symtab_lc->nsyms);
 	clean_magic64(&file);

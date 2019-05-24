@@ -1,6 +1,6 @@
 #include "ft_nm.h"
 
-void	bubble_sort(t_symbol *symbols, uint32_t symb_count, t_bool (*comp)(t_symbol *symb1, t_symbol *symb2))
+static void	bubble_sort(t_symbol *symbols, uint32_t symb_count, t_bool (*comp)(t_symbol *symb1, t_symbol *symb2))
 {
 	uint32_t	i;
 	t_symbol	tmp;
@@ -27,7 +27,7 @@ void	bubble_sort(t_symbol *symbols, uint32_t symb_count, t_bool (*comp)(t_symbol
 // 	return (symb1->value > symb2->value);
 // }
 
-t_bool	default_sort_comp(t_symbol *symb1, t_symbol *symb2)
+static t_bool	default_sort_comp(t_symbol *symb1, t_symbol *symb2)
 {
 	return (ft_strcmp(symb1->name, symb2->name) > 0);
 }
