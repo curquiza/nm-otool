@@ -5,6 +5,7 @@ CC = gcc $(FLAG)
 
 SRC_DIR = src
 SRC = $(addprefix $(SRC_DIR)/, \
+		sort.c \
 		magic64_init.c \
 		magic64_main.c \
 		main.c)

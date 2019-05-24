@@ -59,7 +59,10 @@ static void		print_symbols_output(t_symbol *symbols, size_t sym_count)
 	i = 0;
 	while (i < sym_count)
 	{
-		ft_printf("%c %s\n", symbols[i].type_char, symbols[i].name);
+		if (symbols[i].type_char == 'U' || symbols[i].type_char == 'u')
+			ft_printf("%18c %s\n", symbols[i].type_char, symbols[i].name);
+		else
+			ft_printf("%.16x %c %s\n", symbols[i].value, symbols[i].type_char, symbols[i].name);
 		i++;
 	}
 }
@@ -77,6 +80,7 @@ static void	get_symbols_output(t_bin_file *file)
 	{
 		file->symbols[i].name = string_table + nlist[i].n_un.n_strx;
 		file->symbols[i].type_char = get_type_char(nlist[i].n_value, nlist[i].n_type, nlist[i].n_sect, file);
+		file->symbols[i].value = nlist[i].n_value;
 		i++;
 	}
 }
@@ -84,8 +88,6 @@ static void	get_symbols_output(t_bin_file *file)
 static void	clean_magic64(t_bin_file *file)
 {
 	free(file->symbols);
-	// free(file->sections);
-	// file->sections = NULL;
 	file->symbols = NULL;
 }
 
@@ -99,6 +101,10 @@ t_ex_ret	handle_magic_64(size_t size, void *ptr)
 		return (FAILURE);
 	}
 	get_symbols_output(&file);
+	ft_printf("BEFORE:\n");
+	print_symbols_output(file.symbols, file.symtab_lc->nsyms);
+	ft_printf("AFTER:\n");
+	sort_symbols(&file);
 	print_symbols_output(file.symbols, file.symtab_lc->nsyms);
 	clean_magic64(&file);
 	return (SUCCESS);

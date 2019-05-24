@@ -110,18 +110,8 @@ t_ex_ret		init_magic64(t_bin_file *file, void *ptr, size_t size)
 {
 	file->ptr = ptr;
 	file->size = size;
-	// file->header = (struct mach_header_64 *)ptr; //check size
-	// file->section_count = get_section_count(file);
-	// if (!(file->sections = (struct section_64 **)ft_memalloc(sizeof(*file->sections) * file->section_count)))
-	// 	return (FAILURE);
 	get_file_info(file);
-	// print_sections_table(file);
 	if (!(file->symbols = (t_symbol *)ft_memalloc(file->symtab_lc->nsyms * sizeof(*file->symtab_lc))))
 		return (FAILURE);
-
-	// ft_printf("index text = %d\n", file->text_index);
-	// ft_printf("index data = %d\n", file->data_index);
-	// ft_printf("index bss = %d\n", file->bss_index);
-
 	return (SUCCESS);
 }
