@@ -9,6 +9,7 @@
 # include <mach-o/loader.h>
 # include <mach-o/nlist.h>
 
+# define OPTIONS			"atu"
 # define TOGGLE_CASE		32
 
 # define VALID_OBJ_ERR	"The file was not recognized as a valid object file"

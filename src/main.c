@@ -37,6 +37,7 @@ int		main(int ac, char **av)
 	t_ex_ret	ret;
 
 	ptr = NULL;
+	g_flags = 0;
 
 	if (ac != 2)
 	{
