@@ -1,72 +1,45 @@
 #include "ft_nm.h"
 
-static char        get_type_char(uint64_t value, uint8_t type, uint8_t n_sect, t_bin_file *file)
+static char			get_type_char_for_nsect(uint8_t n_sect, t_bin_file *file)
+{
+	if (n_sect == file->text_index)
+		return ('T');
+	else if (n_sect == file->data_index)
+		return ('D');
+	else if (n_sect == file->bss_index)
+		return ('B');
+	else
+		return ('S');
+}
+
+static char        get_type_char(uint64_t value, uint8_t type, uint8_t n_sect,
+						t_bin_file *file)
 {
     uint8_t mask;
     unsigned char type_char;
 
 	type_char = 0;
-    // debug, see stab.h afer
     if (type & N_STAB)
         return ('-');
-
     // limited global scope ??
-    if (type & N_PEXT)
-        return (' ');
-
-    // type of the symbol
+    // if (type & N_PEXT)
+    //     return (' ');
     mask = type & N_TYPE;
     if (mask == N_UNDF)
-    {
         type_char = 'U';
-    }
-    if (mask == N_ABS)
-    {
+    else if (mask == N_ABS)
         type_char = 'A';
-    }
-    if (mask == N_PBUD)
-    {
+    else if (mask == N_PBUD)
         type_char = 'P';
-    }
-    if (mask == N_INDR)
-    {
+    else if (mask == N_INDR)
         type_char = 'I';
-    }
-    if (mask == N_SECT)
-    {
-        type_char = 'S';
-		if (n_sect == file->text_index)
-			type_char = 'T';
-		else if (n_sect == file->data_index)
-			type_char = 'D';
-		else if (n_sect == file->bss_index)
-			type_char = 'B';
-    }
-	if (mask == N_UNDF && value != 0)
-	{
+    else if (mask == N_SECT)
+		type_char = get_type_char_for_nsect(n_sect, file);
+	else if (mask == N_UNDF && value != 0)
 		type_char = 'C';
-	}
-
-    if (!(type & N_EXT)) // local symbol --> minuscule
-        type_char ^= TOGGLE_CASE;
+    if (!(type & N_EXT))
+		type_char = to_lower(type_char);
     return (type_char);
-}
-
-static void		print_symbols_output(t_symbol *symbols, size_t sym_count)
-{
-	size_t	i;
-
-	i = 0;
-	while (i < sym_count)
-	{
-		if (symbols[i].type_char == '-')
-			;
-		else if (symbols[i].type_char == 'U' || symbols[i].type_char == 'u')
-			ft_printf("%18c %s\n", symbols[i].type_char, symbols[i].name);
-		else
-			ft_printf("%.16llx %c %s\n", symbols[i].value, symbols[i].type_char, symbols[i].name);
-		i++;
-	}
 }
 
 static t_ex_ret	get_symbols_output(t_bin_file *file)

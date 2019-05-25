@@ -5,10 +5,12 @@ CC = gcc $(FLAG)
 
 SRC_DIR = src
 SRC = $(addprefix $(SRC_DIR)/, \
+		utils.c \
 		sort.c \
 		check_file_size.c \
 		magic64_init.c \
 		magic64_main.c \
+		print_symb_output.c \
 		main.c)
 
 OBJ_DIR = objs
