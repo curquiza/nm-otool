@@ -34,7 +34,7 @@ typedef struct	s_bin_file
 
 // Global avec :
 // - flags
-// - filename
+// - filename ?
 uint8_t			g_flags;
 
 /*
@@ -46,7 +46,6 @@ t_ex_ret		handle_magic_64(size_t size, void *ptr, char *filename);
 
 void			sort_symbols(t_bin_file *file);
 
-// t_bool			is_in_file(t_bin_file *file, void *current_pos, size_t needed_size);
 void			*check_and_move(t_bin_file *file, void *dest, size_t needed_size);
 
 #endif
