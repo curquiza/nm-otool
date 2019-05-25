@@ -109,14 +109,18 @@ t_ex_ret	handle_magic_64(size_t size, void *ptr, char *filename)
 {
 	t_bin_file	file;
 
-	if (init_magic64(&file, ptr, size, filename) == FAILURE
-		|| get_symbols_output(&file) == FAILURE)
-	{
-		clean_magic64(&file);
+	if (init_magic64(&file, ptr, size, filename) == FAILURE)
 		return (FAILURE);
+	if (file.symtab_lc)
+	{
+		if (get_symbols_output(&file) == FAILURE)
+		{
+			clean_magic64(&file);
+			return (FAILURE);
+		}
+		sort_symbols(&file);
+		print_symbols_output(file.symbols, file.symtab_lc->nsyms);
+		clean_magic64(&file);
 	}
-	sort_symbols(&file);
-	print_symbols_output(file.symbols, file.symtab_lc->nsyms);
-	clean_magic64(&file);
 	return (SUCCESS);
 }

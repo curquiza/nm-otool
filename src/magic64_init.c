@@ -6,12 +6,17 @@ static t_ex_ret		get_sections_indexes(t_bin_file *file, struct segment_command_6
 	struct section_64			*section;
 
 	// section = (struct section_64 *)((void *)seg + sizeof(*seg)); //check size
-	section = (struct section_64 *)check_and_move(file, (void *)seg + sizeof(*seg), sizeof(*section));
-	if (!section)
-		return (ft_ret_err2(file->filename, VALID_OBJ_ERR));
+	// section = (struct section_64 *)check_and_move(file, (void *)seg + sizeof(*seg), sizeof(*section));
+	// if (!section)
+	// 	return (ft_ret_err2(file->filename, VALID_OBJ_ERR));
 	i = 0;
 	while (i < seg->nsects)
 	{
+		section = (struct section_64 *)check_and_move(file,
+			(void *)seg + sizeof(*seg) + i * sizeof(*section),
+			sizeof(*section));
+		if (!section)
+			return (ft_ret_err2(file->filename, VALID_OBJ_ERR));
 		if (ft_strcmp(section->sectname, SECT_TEXT) == 0)
 			file->text_index = current_sect_index + i;
 		else if (ft_strcmp(section->sectname, SECT_DATA) == 0)
@@ -20,9 +25,9 @@ static t_ex_ret		get_sections_indexes(t_bin_file *file, struct segment_command_6
 			file->bss_index = current_sect_index + i;
 		i++;
 		// section = (struct section_64 *) ((void *)section + sizeof(*section)); //check size
-		section = (struct section_64 *)check_and_move(file, (void *)section + sizeof(*section), sizeof(*section));
-		if (!section)
-			return (ft_ret_err2(file->filename, VALID_OBJ_ERR));
+		// section = (struct section_64 *)check_and_move(file, (void *)section + sizeof(*section), sizeof(*section));
+		// if (!section)
+		// 	return (ft_ret_err2(file->filename, VALID_OBJ_ERR));
 	}
 	return (SUCCESS);
 }
@@ -65,10 +70,14 @@ static t_ex_ret		get_file_info(t_bin_file *file)
 			section_index += seg->nsects;
 		}
 		i++;
-		// lc = (void *)lc + lc->cmdsize; //check size
-		lc = (struct load_command *)check_and_move(file, (void *)lc + lc->cmdsize, sizeof(*lc)); //check size
-		if (!lc)
-			return (FAILURE);
+		if (i < header->ncmds) // sinon on peut depasser la taille du fichier sans que ce soit important car fin de boucle
+		{
+			// ft_printf("dedans : i = %d, ncmds = %d\n", header->ncmds);
+			// lc = (void *)lc + lc->cmdsize; //check size
+			lc = (struct load_command *)check_and_move(file, (void *)lc + lc->cmdsize, sizeof(*lc)); //check size
+			if (!lc)
+				return (FAILURE);
+		}
 	}
 	return (SUCCESS);
 }
@@ -81,7 +90,10 @@ t_ex_ret		init_magic64(t_bin_file *file, void *ptr, size_t size, char *filename)
 	file->size = size;
 	if (get_file_info(file) == FAILURE)
 		return (FAILURE);
-	if (!(file->symbols = (t_symbol *)ft_memalloc(file->symtab_lc->nsyms * sizeof(*file->symtab_lc))))
-		return (FAILURE);
+	if (file->symtab_lc)
+	{
+		if (!(file->symbols = (t_symbol *)ft_memalloc(file->symtab_lc->nsyms * sizeof(*file->symtab_lc))))
+			return (FAILURE);
+	}
 	return (SUCCESS);
 }
