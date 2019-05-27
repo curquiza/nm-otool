@@ -18,5 +18,11 @@ INPUT_CMDS = [
     # { 'cmd': './ft_nm tests/input/test_32',                         'error': False,  'output': 'test_32.output' },
     { 'cmd': './ft_nm tests/input/test_64',                         'error': False,  'output': 'test_64.output' },
     # { 'cmd': './ft_nm tests/input/MachO-OSX-ppc-openssl-1.0.1h',    'error': False,  'output': 'MachO-OSX-ppc-openssl-1.0.1h.output' },
+
+    { 'cmd': './ft_nm -r tests/input/object_medium',                'error': False, 'output': 'reverse_1.output'},
+    { 'cmd': './ft_nm -r tests/input/64_exe_hard',                  'error': False, 'output': 'reverse_2.output'},
+    { 'cmd': './ft_nm -p tests/input/test_64',                      'error': False, 'output': 'opt_p_1.output'},
+    { 'cmd': './ft_nm -n tests/input/test_64',                      'error': False, 'output': 'opt_n_1.output'},
+    { 'cmd': './ft_nm -n -r tests/input/64_bundle',                 'error': False, 'output': 'multi_opt_1.output' },
 ]
 

@@ -48,11 +48,15 @@ t_ex_ret		ret_usage(void);
 t_ex_ret		activate_opt(char opt_letter);
 t_bool			opt_is_activated(char opt_letter);
 
-void			*check_and_move(t_bin_file *file, void *dest, size_t needed_size);
+void			*check_and_move(t_bin_file *file, void *dest,
+					size_t needed_size);
 t_ex_ret		ft_nm(size_t size, void *ptr, char *filename);
-t_ex_ret		init_magic64(t_bin_file *file, void *ptr, size_t size, char *filename);
+t_ex_ret		init_magic64(t_bin_file *file, void *ptr, size_t size,
+					char *filename);
 t_ex_ret		handle_magic_64(size_t size, void *ptr, char *filename);
 
+t_bool			value_sort_comp(t_symbol *symb1, t_symbol *symb2);
+t_bool			alpha_sort_comp(t_symbol *symb1, t_symbol *symb2);
 t_ex_ret		sort_symbols(t_bin_file *file);
 
 void			print_symbols_output(t_symbol *symbols, size_t sym_count);

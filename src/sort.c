@@ -67,27 +67,40 @@ static t_ex_ret	merge_sort(t_symbol *tab, int start_index, int end_index,
 // 		}
 // 		i++;
 // 	}
-
 // }
 
-// t_bool	value_sort_comp(t_symbol *symb1, t_symbol *symb2)
-// {
-//	// sort by name sinon
-// 	return (symb1->value > symb2->value);
-// }
-
-static t_bool	default_sort_comp(t_symbol *symb1, t_symbol *symb2)
+static void		reverse_symb_tab(t_symbol *tab, int tab_count)
 {
-	return (ft_strcmp(symb1->name, symb2->name) > 0);
+	int			i;
+	t_symbol	tmp;
+
+	i = 0;
+	while (i < tab_count / 2)
+	{
+		tmp = tab[i];
+		tab[i] = tab[tab_count - 1 - i];
+		tab[tab_count - 1 - i] = tmp;
+		i++;
+	}
 }
 
 t_ex_ret	sort_symbols(t_bin_file *file)
 {
-	//check options
-
-	// bubble_sort(file->symbols, file->symtab_lc->nsyms, &default_sort_comp);
-	if (merge_sort(file->symbols, 0, file->symtab_lc->nsyms - 1, &default_sort_comp) == FAILURE)
+	if (opt_is_activated('p') == TRUE)
+		return (SUCCESS);
+	if (merge_sort(file->symbols, 0, file->symtab_lc->nsyms - 1,
+			&alpha_sort_comp) == FAILURE)
 		return (FAILURE);
+	if (opt_is_activated('n') == TRUE)
+	{
+		if (merge_sort(file->symbols, 0, file->symtab_lc->nsyms - 1,
+				&value_sort_comp) == FAILURE)
+			return (FAILURE);
+	}
+	if (opt_is_activated('r') == TRUE)
+	{
+		reverse_symb_tab(file->symbols, file->symtab_lc->nsyms);
+	}
 	return (SUCCESS);
 }
 

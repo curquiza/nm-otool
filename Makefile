@@ -8,6 +8,7 @@ SRC = $(addprefix $(SRC_DIR)/, \
 		utils.c \
 		utils_options.c \
 		sort.c \
+		sort_comp_func.c \
 		check_file_size.c \
 		ft_nm.c \
 		magic64_init.c \
