@@ -8,11 +8,15 @@
 # include <sys/mman.h>
 # include <mach-o/loader.h>
 # include <mach-o/nlist.h>
+# include <errno.h>
 
 # define OPTIONS		"gjnpruU"
 # define TOGGLE_CASE	32
 
 # define VALID_OBJ_ERR	"The file was not recognized as a valid object file"
+# define IS_DIR_ERR		"Is a directory"
+# define NO_FILE_ERR	"No such file or directory"
+# define PERM_ERR		"Permission denied"
 
 typedef struct  s_symbol
 {
@@ -52,7 +56,9 @@ t_bool			opt_is_activated(char opt_letter);
 
 void			*check_and_move(t_bin_file *file, void *dest,
 					size_t needed_size);
-t_ex_ret		ft_nm(size_t size, void *ptr, char *filename);
+
+t_ex_ret		process_single_file(char *filename, t_bool multi_display);
+
 t_ex_ret		init_magic64(t_bin_file *file, void *ptr, size_t size,
 					char *filename);
 t_ex_ret		handle_magic_64(size_t size, void *ptr, char *filename);
