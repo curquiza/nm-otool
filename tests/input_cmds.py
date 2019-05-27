@@ -23,6 +23,8 @@ INPUT_CMDS = [
     { 'cmd': './ft_nm -r tests/input/64_exe_hard',                  'error': False, 'output': 'reverse_2.output' },
     { 'cmd': './ft_nm -p tests/input/test_64',                      'error': False, 'output': 'opt_p_1.output' },
     { 'cmd': './ft_nm -n tests/input/test_64',                      'error': False, 'output': 'opt_n_1.output' },
+    { 'cmd': './ft_nm -u tests/input/basic_64',                     'error': False, 'output': 'opt_u_1.output' },
+    { 'cmd': './ft_nm -U tests/input/basic_64',                     'error': False, 'output': 'opt_big_u_1.output' },
 
     { 'cmd': './ft_nm -n -r tests/input/64_bundle',                 'error': False, 'output': 'multi_opt_1.output' },
     { 'cmd': './ft_nm -gn tests/input/basic_64',                    'error': False, 'output': 'multi_opt_2.output' },
