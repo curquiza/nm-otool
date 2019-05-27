@@ -1,0 +1,13 @@
+___mb_cur_max
+___stack_chk_fail
+___stack_chk_guard
+_close
+_exit
+_free
+_fstat$INODE64
+_malloc
+_mmap
+_munmap
+_open
+_write
+dyld_stub_binder

@@ -5,6 +5,16 @@ CC = gcc $(FLAG)
 
 SRC_DIR = src
 SRC = $(addprefix $(SRC_DIR)/, \
+		utils.c \
+		utils_options.c \
+		sort.c \
+		sort_comp_func.c \
+		check_file_size.c \
+		ft_nm.c \
+		magic64_init.c \
+		magic64_main.c \
+		print_symb_output.c \
+		clean.c \
 		main.c)
 
 OBJ_DIR = objs
@@ -36,6 +46,9 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(H_DIR)
 	@mkdir -p $(OBJ_DIR)
 	@$(CC) $(INCL) -c $< -o $@
 	@printf "%-45s\033[1;32m%s\033[0m\n" "Make $@" "OK"
+
+run_test:
+	python3 tests/main_tests.py
 
 clean :
 	@rm -rf $(OBJ_DIR)
