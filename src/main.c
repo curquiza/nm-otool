@@ -29,7 +29,7 @@ t_ex_ret	ft_nm(size_t size, void *ptr, char *filename)
 	return (FAILURE);
 }
 
-int		main(int ac, char **av)
+static t_ex_ret	process_bin_file(char *filename)
 {
 	int			fd;
 	void		*ptr;
@@ -37,41 +37,30 @@ int		main(int ac, char **av)
 	t_ex_ret	ret;
 
 	ptr = NULL;
-	g_flags = 0;
+	if ((fd = open(filename, O_RDONLY)) < 0)
+		return (ft_ret_err2(filename, "open error"));
+	if ((fstat(fd, &buf)) < 0)
+		return (ft_ret_err2(filename, "fstat error"));
+	if ((ptr = mmap(ptr, buf.st_size, PROT_READ, MAP_PRIVATE, fd, 0))
+		== MAP_FAILED)
+		return (ft_ret_err2(filename, "mmap error"));
+	ret = ft_nm(buf.st_size, ptr, filename);
+	if (munmap(ptr, buf.st_size) < 0)
+		return (ft_ret_err2(filename, "munmap error"));
+	if (close(fd) == -1)
+		return (ft_ret_err2(filename, "close error"));
+	return (ret);
+}
 
+int		main(int ac, char **av)
+{
+	g_flags = 0;
 	if (ac != 2)
 	{
-		fprintf(stderr, "usage: nm binary_file [...]\n");
+		fprintf(stderr, "Usage: ./ft_nm binary_file [...]\n");
 		return (FAILURE);
 	}
-
-	if ((fd = open(av[1], O_RDONLY)) < 0)
-	{
-		fprintf(stderr, "open: error\n");
+	if (process_bin_file(av[1]) == FAILURE)
 		return (FAILURE);
-	}
-
-	if ((fstat(fd, &buf)) < 0)
-	{
-		fprintf(stderr, "fstat: error\n");
-		return (FAILURE);
-	}
-
-	if ((ptr = mmap(ptr, buf.st_size, PROT_READ, MAP_PRIVATE, fd, 0)) == MAP_FAILED)
-	{
-		fprintf(stderr, "mmap: error\n");
-		return (FAILURE);
-	}
-
-	ret = ft_nm(buf.st_size, ptr, av[1]);
-
-	if (munmap(ptr, buf.st_size) < 0)
-	{
-		fprintf(stderr, "munmap: error\n");
-		return (FAILURE);
-	}
-
-	//close !!
-
-	return (ret);
+	return (SUCCESS);
 }
