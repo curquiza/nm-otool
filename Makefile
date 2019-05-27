@@ -10,7 +10,7 @@ SRC = $(addprefix $(SRC_DIR)/, \
 		sort.c \
 		sort_comp_func.c \
 		check_file_size.c \
-		ft_nm.c \
+		process_single_file.c \
 		magic64_init.c \
 		magic64_main.c \
 		print_symb_output.c \
