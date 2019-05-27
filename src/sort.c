@@ -12,7 +12,7 @@ static t_ex_ret	run_merge_sort(t_symbol *tab, int start1, int end1, int end2,
 	cpt1 = start1;
 	cpt2 = end1 + 1;
 	if (!(tmp = (t_symbol *)ft_memalloc(sizeof(*tmp) * (end1 - start1 + 1))))
-		return (FAILURE);
+		return (ret_malloc_err());
 	ft_memmove(tmp, tab + start1, (end1 - start1 + 1) * sizeof(*tmp));
 	i = start1;
 	while (i <= end2)

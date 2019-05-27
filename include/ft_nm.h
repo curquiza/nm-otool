@@ -43,6 +43,7 @@ uint8_t			g_flags;
 */
 
 char			to_lower(char c);
+t_ex_ret		ret_malloc_err(void);
 void			*check_and_move(t_bin_file *file, void *dest, size_t needed_size);
 
 t_ex_ret		init_magic64(t_bin_file *file, void *ptr, size_t size, char *filename);

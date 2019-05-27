@@ -103,7 +103,7 @@ t_ex_ret			init_magic64(t_bin_file *file, void *ptr, size_t size,
 	{
 		if (!(file->symbols = (t_symbol *)ft_memalloc(file->symtab_lc->nsyms
 				* sizeof(*file->symtab_lc))))
-			return (FAILURE);
+			return (ret_malloc_err());
 	}
 	return (SUCCESS);
 }
