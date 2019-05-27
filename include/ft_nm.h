@@ -48,7 +48,7 @@ void			*check_and_move(t_bin_file *file, void *dest, size_t needed_size);
 t_ex_ret		init_magic64(t_bin_file *file, void *ptr, size_t size, char *filename);
 t_ex_ret		handle_magic_64(size_t size, void *ptr, char *filename);
 
-void			sort_symbols(t_bin_file *file);
+t_ex_ret		sort_symbols(t_bin_file *file);
 
 void			print_symbols_output(t_symbol *symbols, size_t sym_count);
 
