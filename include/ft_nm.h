@@ -9,8 +9,8 @@
 # include <mach-o/loader.h>
 # include <mach-o/nlist.h>
 
-# define OPTIONS			"atu"
-# define TOGGLE_CASE		32
+# define OPTIONS		"gjnpruU"
+# define TOGGLE_CASE	32
 
 # define VALID_OBJ_ERR	"The file was not recognized as a valid object file"
 
@@ -45,6 +45,8 @@ uint8_t			g_flags;
 char			to_lower(char c);
 t_ex_ret		ret_malloc_err(void);
 void			*check_and_move(t_bin_file *file, void *dest, size_t needed_size);
+t_ex_ret		activate_opt(char opt_letter);
+t_bool			opt_is_activated(char opt_letter);
 
 t_ex_ret		init_magic64(t_bin_file *file, void *ptr, size_t size, char *filename);
 t_ex_ret		handle_magic_64(size_t size, void *ptr, char *filename);
