@@ -98,9 +98,7 @@ t_ex_ret	sort_symbols(t_bin_file *file)
 			return (FAILURE);
 	}
 	if (opt_is_activated('r') == TRUE)
-	{
 		reverse_symb_tab(file->symbols, file->symtab_lc->nsyms);
-	}
 	return (SUCCESS);
 }
 

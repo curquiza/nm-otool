@@ -26,10 +26,14 @@ static t_ex_ret	process_single_bin_file(char *filename)
 static t_ex_ret	process_all_files(int argc, char **argv, int first_file_index)
 {
 	t_ex_ret	ret;
+	t_bool		display_name;
 
 	ret = SUCCESS;
+	display_name = (first_file_index == (argc - 1)) ? FALSE : TRUE;
 	while (first_file_index < argc)
 	{
+		if (display_name == TRUE)
+			ft_printf("\n%s:\n", argv[first_file_index]);
 		if ((ret = process_single_bin_file(argv[first_file_index]) == FAILURE))
 			ret = FAILURE;
 		first_file_index++;
