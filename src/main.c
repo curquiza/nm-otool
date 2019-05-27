@@ -1,6 +1,6 @@
 #include "ft_nm.h"
 
-static t_ex_ret	process_single_bin_file(char *filename)
+static t_ex_ret	process_single_bin_file(char *filename, t_bool multi_display)
 {
 	int			fd;
 	void		*ptr;
@@ -15,7 +15,18 @@ static t_ex_ret	process_single_bin_file(char *filename)
 	if ((ptr = mmap(ptr, buf.st_size, PROT_READ, MAP_PRIVATE, fd, 0))
 		== MAP_FAILED)
 		return (ft_ret_err2(filename, "mmap error"));
+
+	// check ici si archive (.a) :
+	// if archive
+	//	boucler sur les files dans l'archives
+	//	ft_nm(buf.st_size, ptr, filename, archive);
+	// else
+	//	affichage du name (si multiday == true)
+	//	ft_nm(buf.st_size, ptr, filename, NULL);
+	if (multi_display == TRUE)
+		ft_printf("\n%s\n", filename);
 	ret = ft_nm(buf.st_size, ptr, filename);
+
 	if (munmap(ptr, buf.st_size) < 0)
 		return (ft_ret_err2(filename, "munmap error"));
 	if (close(fd) == -1)
@@ -26,15 +37,14 @@ static t_ex_ret	process_single_bin_file(char *filename)
 static t_ex_ret	process_all_files(int argc, char **argv, int first_file_index)
 {
 	t_ex_ret	ret;
-	t_bool		display_name;
+	t_bool		multi_display;
 
 	ret = SUCCESS;
-	display_name = (first_file_index == (argc - 1)) ? FALSE : TRUE;
+	multi_display = (first_file_index == (argc - 1)) ? FALSE : TRUE;
 	while (first_file_index < argc)
 	{
-		if (display_name == TRUE)
-			ft_printf("\n%s:\n", argv[first_file_index]);
-		if ((ret = process_single_bin_file(argv[first_file_index]) == FAILURE))
+		if (process_single_bin_file(argv[first_file_index], multi_display)
+			== FAILURE)
 			ret = FAILURE;
 		first_file_index++;
 	}
