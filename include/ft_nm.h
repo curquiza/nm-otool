@@ -44,10 +44,12 @@ uint8_t			g_flags;
 
 char			to_lower(char c);
 t_ex_ret		ret_malloc_err(void);
-void			*check_and_move(t_bin_file *file, void *dest, size_t needed_size);
+t_ex_ret		ret_usage(void);
 t_ex_ret		activate_opt(char opt_letter);
 t_bool			opt_is_activated(char opt_letter);
 
+void			*check_and_move(t_bin_file *file, void *dest, size_t needed_size);
+t_ex_ret		ft_nm(size_t size, void *ptr, char *filename);
 t_ex_ret		init_magic64(t_bin_file *file, void *ptr, size_t size, char *filename);
 t_ex_ret		handle_magic_64(size_t size, void *ptr, char *filename);
 

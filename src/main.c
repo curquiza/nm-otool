@@ -1,35 +1,6 @@
 #include "ft_nm.h"
 
-t_ex_ret	ft_nm(size_t size, void *ptr, char *filename)
-{
-	uint32_t	magic_number;
-
-	magic_number = *(uint32_t *)ptr;
-	if (magic_number == MH_MAGIC)
-	{
-		ft_printf("MAGIC 32 bits\n");
-	}
-	else if (magic_number == MH_MAGIC_64)
-	{
-		// ft_printf("MAGIC 64 bits\n");
-		return (handle_magic_64(size, ptr, filename));
-	}
-	else if (magic_number == MH_CIGAM)
-	{
-		ft_printf("CIGAM 32 bits\n");
-	}
-	else if (magic_number == MH_CIGAM_64)
-	{
-		ft_printf("CIGAM 64 bits\n");
-	}
-	else
-	{
-		ft_dprintf(2, "Wrong magic number\n");
-	}
-	return (FAILURE);
-}
-
-static t_ex_ret	process_bin_file(char *filename)
+static t_ex_ret	process_single_bin_file(char *filename)
 {
 	int			fd;
 	void		*ptr;
@@ -52,15 +23,56 @@ static t_ex_ret	process_bin_file(char *filename)
 	return (ret);
 }
 
-int		main(int ac, char **av)
+static t_ex_ret	process_all_files(int argc, char **argv, int first_file_index)
+{
+	t_ex_ret	ret;
+
+	ret = SUCCESS;
+	while (first_file_index < argc)
+	{
+		if ((ret = process_single_bin_file(argv[first_file_index]) == FAILURE))
+			ret = FAILURE;
+		first_file_index++;
+	}
+	return (ret);
+}
+
+static int	get_all_options(int argc, char **argv)
+{
+	int		i;
+
+	i = 1;
+	while (i < argc)
+	{
+		if (*argv[i] != '-')
+			return (i);
+		if (ft_strcmp(argv[i], "--") == 0)
+			return (i + 1);
+		(argv[i])++;
+		while (*argv[i])
+		{
+			if (activate_opt(*argv[i]) == FAILURE)
+				return (-1);
+			(argv[i])++;
+		}
+		i++;
+	}
+	return (i);
+}
+
+static t_ex_ret process_all_arguments(int argc, char **argv)
+{
+	int		first_file_index;
+
+	if ((first_file_index = get_all_options(argc, argv)) == -1)
+		return (FAILURE);
+	return (process_all_files(argc, argv, first_file_index));
+}
+
+int		main(int argc, char **argv)
 {
 	g_flags = 0;
-	if (ac != 2)
-	{
-		fprintf(stderr, "Usage: ./ft_nm binary_file [...]\n");
-		return (FAILURE);
-	}
-	if (process_bin_file(av[1]) == FAILURE)
-		return (FAILURE);
-	return (SUCCESS);
+	if (argc < 2)
+		return (ret_usage());
+	return (process_all_arguments(argc, argv));
 }
