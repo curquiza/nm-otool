@@ -53,4 +53,6 @@ t_ex_ret		sort_symbols(t_bin_file *file);
 
 void			print_symbols_output(t_symbol *symbols, size_t sym_count);
 
+void			clean_magic64(t_bin_file *file);
+
 #endif

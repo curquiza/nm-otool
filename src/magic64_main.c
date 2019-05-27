@@ -72,12 +72,6 @@ static t_ex_ret	get_symbols_output(t_bin_file *file)
 	return (SUCCESS);
 }
 
-static void	clean_magic64(t_bin_file *file)
-{
-	free(file->symbols);
-	file->symbols = NULL;
-}
-
 t_ex_ret	handle_magic_64(size_t size, void *ptr, char *filename)
 {
 	t_bin_file	file;

@@ -12,6 +12,7 @@ SRC = $(addprefix $(SRC_DIR)/, \
 		magic64_init.c \
 		magic64_main.c \
 		print_symb_output.c \
+		clean.c \
 		main.c)
 
 OBJ_DIR = objs
