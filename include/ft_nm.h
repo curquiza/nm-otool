@@ -10,13 +10,15 @@
 # include <mach-o/nlist.h>
 # include <errno.h>
 
-# define OPTIONS		"gjnpruU"
-# define TOGGLE_CASE	32
+# define OPTIONS			"gjnpruU"
+# define TOGGLE_CASE		32
 
-# define VALID_OBJ_ERR	"The file was not recognized as a valid object file"
-# define IS_DIR_ERR		"Is a directory"
-# define NO_FILE_ERR	"No such file or directory"
-# define PERM_ERR		"Permission denied"
+# define VALID_OBJ_ERR		"The file was not recognized as a valid object file"
+# define IS_DIR_ERR			"Is a directory"
+# define NO_FILE_ERR		"No such file or directory"
+# define PERM_ERR			"Permission denied"
+
+# define BAD_STRING_INDEX	"bad string index"
 
 typedef struct  s_symbol
 {

@@ -7,5 +7,7 @@ t_bool	value_sort_comp(t_symbol *symb1, t_symbol *symb2)
 
 t_bool	alpha_sort_comp(t_symbol *symb1, t_symbol *symb2)
 {
+	if (!symb1->name || !symb2->name)
+		return (value_sort_comp(symb1, symb2));
 	return (ft_strcmp(symb1->name, symb2->name) > 0);
 }
