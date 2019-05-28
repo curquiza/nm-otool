@@ -12,34 +12,34 @@ static char			get_type_char_for_nsect(uint8_t n_sect, t_bin_file *file)
 		return ('S');
 }
 
-static char        get_type_char(uint64_t value, uint8_t type, uint8_t n_sect,
+static char		get_type_char(uint64_t value, uint8_t type, uint8_t n_sect,
 						t_bin_file *file)
 {
-    uint8_t mask;
-    unsigned char type_char;
+	uint8_t mask;
+	unsigned char type_char;
 
 	type_char = 0;
-    if (type & N_STAB)
-        return ('-');
-    // limited global scope ??
-    // if (type & N_PEXT)
-    //     return (' ');
-    mask = type & N_TYPE;
-    if (mask == N_UNDF)
-        type_char = 'U';
-    else if (mask == N_ABS)
-        type_char = 'A';
-    else if (mask == N_PBUD)
-        type_char = 'P';
-    else if (mask == N_INDR)
-        type_char = 'I';
-    else if (mask == N_SECT)
+	if (type & N_STAB)
+		return ('-');
+	// limited global scope ??
+	// if (type & N_PEXT)
+	//	return (' ');
+	mask = type & N_TYPE;
+	if (mask == N_UNDF)
+		type_char = 'U';
+	else if (mask == N_ABS)
+		type_char = 'A';
+	else if (mask == N_PBUD)
+		type_char = 'P';
+	else if (mask == N_INDR)
+		type_char = 'I';
+	else if (mask == N_SECT)
 		type_char = get_type_char_for_nsect(n_sect, file);
 	else if (mask == N_UNDF && value != 0)
 		type_char = 'C';
-    if (!(type & N_EXT))
+	if (!(type & N_EXT))
 		type_char = to_lower(type_char);
-    return (type_char);
+	return (type_char);
 }
 
 static t_ex_ret	get_symbols_output(t_bin_file *file)
