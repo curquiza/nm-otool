@@ -64,6 +64,8 @@ static t_ex_ret	get_symbols_output(t_bin_file *file)
 		// file->symbols[i].name = string_table + nlist[i].n_un.n_strx;
 		file->symbols[i].name = check_and_move(file, string_table
 			+ nlist[i].n_un.n_strx, sizeof(*file->symbols[i].name));
+		if (!file->symbols[i].name)
+			file->symbols[i].name = BAD_STRING_INDEX;
 		// if (!file->symbols[i].name)
 		// 	return (ft_ret_err2(file->filename, VALID_OBJ_ERR));
 		file->symbols[i].type_char = get_type_char(nlist[i].n_value, nlist[i].n_type, nlist[i].n_sect, file);

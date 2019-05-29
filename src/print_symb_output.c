@@ -7,8 +7,8 @@ void		print_symbols_output(t_symbol *symbols, size_t sym_count)
 	i = 0;
 	while (i < sym_count)
 	{
-		if (!symbols[i].name)
-			symbols[i].name = BAD_STRING_INDEX;
+		// if (!symbols[i].name)
+		// 	symbols[i].name = BAD_STRING_INDEX;
 		if (symbols[i].type_char == '-')
 			;
 		else if (opt_is_activated('g')
