@@ -18,16 +18,15 @@ static char		get_type_char(uint64_t value, uint8_t type, uint8_t n_sect,
 	uint8_t mask;
 	unsigned char type_char;
 
-	type_char = 0;
+	type_char = '?';
 	if (type & N_STAB)
 		return ('-');
 	// limited global scope ??
 	// if (type & N_PEXT)
 	//	return (' ');
 	mask = type & N_TYPE;
-	if (mask == N_UNDF)
-		type_char = 'U';
-	else if (mask == N_ABS)
+
+	if (mask == N_ABS)
 		type_char = 'A';
 	else if (mask == N_PBUD)
 		type_char = 'P';
@@ -35,9 +34,11 @@ static char		get_type_char(uint64_t value, uint8_t type, uint8_t n_sect,
 		type_char = 'I';
 	else if (mask == N_SECT)
 		type_char = get_type_char_for_nsect(n_sect, file);
-	else if (mask == N_UNDF && value != 0)
+	else if (mask == N_UNDF && value != 0 && (type & N_EXT))
 		type_char = 'C';
-	if (!(type & N_EXT))
+	else if (mask == N_UNDF && (type & N_EXT))
+		type_char = 'U';
+	if (ft_isalpha(type_char) && !(type & N_EXT))
 		type_char = to_lower(type_char);
 	return (type_char);
 }
