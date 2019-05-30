@@ -37,7 +37,8 @@ static t_ex_ret		get_info_from_lc(t_bin_file *file, struct load_command *lc,
 	lc_cmd = swap_uint32_if(lc->cmd, file->endian);
 	if (lc_cmd == LC_SYMTAB)
 	{
-		file->symtab_lc = (struct symtab_command *)check_and_move(file, lc, sizeof(*lc)); //check size
+		file->symtab_lc = (struct symtab_command *)check_and_move(file, lc,
+			sizeof(*lc)); //check size
 		if (!file->symtab_lc)
 			return (ft_ret_err2(file->filename, VALID_OBJ_ERR));
 	}
@@ -103,7 +104,7 @@ t_ex_ret			init_32(t_bin_file *file)
 	{
 		if (!(file->symbols = (t_symbol *)
 			ft_memalloc(swap_uint32_if(file->symtab_lc->nsyms, file->endian)
-					* sizeof(*file->symtab_lc))))
+				* sizeof(*file->symtab_lc))))
 			return (ret_malloc_err());
 	}
 	return (SUCCESS);

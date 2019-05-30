@@ -11,7 +11,8 @@ static void		get_one_symbol(t_bin_file *file, struct nlist *nlist,
 	if (!file->symbols[i].name)
 		file->symbols[i].name = BAD_STRING_INDEX;
 	n_value = swap_uint32_if(nlist[i].n_value, file->endian);
-	file->symbols[i].type_char = get_type_char(n_value, nlist[i].n_type, nlist[i].n_sect, file);
+	file->symbols[i].type_char = get_type_char(n_value, nlist[i].n_type,
+		nlist[i].n_sect, file);
 	file->symbols[i].value = n_value;
 
 }

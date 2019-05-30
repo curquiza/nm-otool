@@ -4,9 +4,9 @@ static t_ex_ret		get_sections_indexes(t_bin_file *file,
 						struct segment_command_64 *seg,
 						uint8_t current_sect_index)
 {
-	uint32_t					i;
-	struct section_64			*section;
-	uint32_t					seg_nsects;
+	uint32_t			i;
+	struct section_64	*section;
+	uint32_t			seg_nsects;
 
 	seg_nsects = swap_uint32_if(seg->nsects, file->endian);
 	i = 0;
@@ -37,13 +37,15 @@ static t_ex_ret		get_info_from_lc(t_bin_file *file, struct load_command *lc,
 	lc_cmd = swap_uint32_if(lc->cmd, file->endian);
 	if (lc_cmd == LC_SYMTAB)
 	{
-		file->symtab_lc = (struct symtab_command *)check_and_move(file, lc, sizeof(*lc)); //check size
+		file->symtab_lc = (struct symtab_command *)check_and_move(file, lc,
+			sizeof(*lc)); //check size
 		if (!file->symtab_lc)
 			return (ft_ret_err2(file->filename, VALID_OBJ_ERR));
 	}
 	else if (lc_cmd == LC_SEGMENT_64)
 	{
-		seg = (struct segment_command_64 *)check_and_move(file, lc, sizeof(*seg));
+		seg = (struct segment_command_64 *)check_and_move(file, lc,
+			sizeof(*seg));
 		if (!seg)
 			return (ft_ret_err2(file->filename, VALID_OBJ_ERR));
 		if (get_sections_indexes(file, seg, *section_index) == FAILURE)
@@ -101,7 +103,8 @@ t_ex_ret			init_64(t_bin_file *file)
 		return (FAILURE);
 	if (file->symtab_lc)
 	{
-		if (!(file->symbols = (t_symbol *)ft_memalloc(file->symtab_lc->nsyms
+		if (!(file->symbols = (t_symbol *)
+			ft_memalloc(swap_uint32_if(file->symtab_lc->nsyms, file->endian)
 				* sizeof(*file->symtab_lc))))
 			return (ret_malloc_err());
 	}
