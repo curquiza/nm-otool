@@ -18,6 +18,7 @@ INPUT_CMDS = [
     { 'cmd': './ft_nm tests/input/test_32',                         'error': False,  'output': 'test_32.output' },
     { 'cmd': './ft_nm tests/input/test_64',                         'error': False,  'output': 'test_64.output' },
     { 'cmd': './ft_nm tests/input/MachO-OSX-ppc-openssl-1.0.1h',    'error': False,  'output': 'MachO-OSX-ppc-openssl-1.0.1h.output' },
+    { 'cmd': './ft_nm tests/input/global',                          'error': False,  'output': 'global.output' },
 
     { 'cmd': './ft_nm -r tests/input/object_medium',                'error': False, 'output': 'reverse_1.output' },
     { 'cmd': './ft_nm -r tests/input/64_exe_hard',                  'error': False, 'output': 'reverse_2.output' },
