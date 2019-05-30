@@ -56,7 +56,7 @@ t_ex_ret	process_single_file(char *filename, t_bool multi_display)
 	// check ici si archive (.a) :
 	// if archive
 	//	boucler sur les files dans l'archives
-	//	ft_nm(buf.st_size, ptr, filename, archive);
+	//		ft_nm(buf.st_size, ptr, filename, archive);
 	// else
 	//	affichage du name (si multi_display == true)
 	//	ft_nm(buf.st_size, ptr, filename, NULL);
