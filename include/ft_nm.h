@@ -17,10 +17,17 @@
 # define IS_DIR_ERR			"Is a directory"
 # define NO_FILE_ERR		"No such file or directory"
 # define PERM_ERR			"Permission denied"
+# define CMDSIZE_ERR		"Malformed object (cmdsize not a multiple of 8)"
 
 # define BAD_STRING_INDEX	"bad string index"
 
-typedef struct  s_symbol
+enum			e_endian
+{
+	CIGAM,
+	MAGIC
+};
+
+typedef struct	s_symbol
 {
 	char		*name;
 	char		type_char;
@@ -30,6 +37,7 @@ typedef struct  s_symbol
 typedef struct	s_bin_file
 {
 	char					*filename;
+	enum e_endian			endian;
 	void					*ptr;
 	size_t					size;
 	struct symtab_command	*symtab_lc; //generique ?
@@ -56,14 +64,15 @@ t_ex_ret		ret_usage(void);
 t_ex_ret		activate_opt(char opt_letter);
 t_bool			opt_is_activated(char opt_letter);
 
+uint32_t		swap_uint32_if(uint32_t n, enum e_endian endian);
 void			*check_and_move(t_bin_file *file, void *dest,
 					size_t needed_size);
 
 t_ex_ret		process_single_file(char *filename, t_bool multi_display);
 
-t_ex_ret		init_magic64(t_bin_file *file, void *ptr, size_t size,
-					char *filename);
-t_ex_ret		handle_magic_64(size_t size, void *ptr, char *filename);
+t_ex_ret		init_magic64(t_bin_file *file);
+t_ex_ret		handle_magic_64(size_t size, void *ptr, char *filename,
+					enum e_endian endian);
 
 t_bool			value_sort_comp(t_symbol *symb1, t_symbol *symb2);
 t_bool			alpha_sort_comp(t_symbol *symb1, t_symbol *symb2);

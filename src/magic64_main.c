@@ -75,11 +75,17 @@ static t_ex_ret	get_symbols_output(t_bin_file *file)
 	return (SUCCESS);
 }
 
-t_ex_ret	handle_magic_64(size_t size, void *ptr, char *filename)
+t_ex_ret	handle_magic_64(size_t size, void *ptr, char *filename,
+				enum e_endian endian)
 {
 	t_bin_file	file;
 
-	if (init_magic64(&file, ptr, size, filename) == FAILURE)
+	ft_bzero(&file, sizeof(file));
+	file.filename = filename;
+	file.ptr = ptr;
+	file.size = size;
+	file.endian = endian;
+	if (init_magic64(&file) == FAILURE)
 		return (FAILURE);
 	if (file.symtab_lc)
 	{

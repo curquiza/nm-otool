@@ -1,0 +1,20 @@
+#include "ft_nm.h"
+
+static uint32_t	swap_uint32(uint32_t n)
+{
+	int		swap;
+
+	swap = ((n >> 24) & 0xFF)
+		| ((n >> 8) & 0xFF00)
+		| ((n << 8) & 0xFF0000)
+		| ((n << 24) & 0xFF000000);
+	return (swap);
+}
+
+uint32_t	swap_uint32_if(uint32_t n, enum e_endian endian)
+{
+	if (endian == MAGIC)
+		return (n);
+	else
+		return (swap_uint32(n));
+}
