@@ -53,31 +53,31 @@ static t_ex_ret		get_info_from_lc(t_bin_file *file, struct load_command *lc,
 	return (SUCCESS);
 }
 
-static t_ex_ret		init_header_and_lc(t_bin_file *file,
-						struct mach_header_64 **header,
+static t_ex_ret		init_lc_and_ncmds(t_bin_file *file, uint32_t *header_ncmds,
 						struct load_command	**lc)
 {
-	*header = (struct mach_header_64 *)check_and_move(file, file->ptr,
-		sizeof(**header));
+	struct mach_header_64		*header;
+
+	header = (struct mach_header_64 *)check_and_move(file, file->ptr,
+		sizeof(*header));
 	*lc = (struct load_command *)check_and_move(file,
-		file->ptr + sizeof(**header), sizeof(**lc));
-	if (!*header || !*lc)
+		file->ptr + sizeof(*header), sizeof(**lc));
+	if (!header || !*lc)
 		return (ft_ret_err2(file->filename, VALID_OBJ_ERR));
+	*header_ncmds = swap_uint32_if(header->ncmds, file->endian);
 	return (SUCCESS);
 }
 
 static t_ex_ret		get_file_info(t_bin_file *file)
 {
 	uint32_t					i;
-	uint8_t						section_index;
 	struct load_command			*lc;
-	struct mach_header_64		*header;
 	uint32_t					header_ncmds;
+	uint8_t						section_index;
 
-	if (init_header_and_lc(file, &header, &lc) == FAILURE)
+	if (init_lc_and_ncmds(file, &header_ncmds, &lc) == FAILURE)
 		return (FAILURE);
 	section_index = 1;
-	header_ncmds = swap_uint32_if(header->ncmds, file->endian);
 	i = 0;
 	while (i < header_ncmds)
 	{
