@@ -1,18 +1,18 @@
 #include "ft_nm.h"
 
 static t_ex_ret		get_sections_indexes(t_bin_file *file,
-						struct segment_command_64 *seg,
+						struct segment_command *seg,
 						uint8_t current_sect_index)
 {
 	uint32_t			i;
-	struct section_64	*section;
+	struct section		*section;
 	uint32_t			seg_nsects;
 
 	seg_nsects = swap_uint32_if(seg->nsects, file->endian);
 	i = 0;
 	while (i < seg_nsects)
 	{
-		section = (struct section_64 *)check_and_move(file,
+		section = (struct section *)check_and_move(file,
 			(void *)seg + sizeof(*seg) + i * sizeof(*section),
 			sizeof(*section));
 		if (!section)
@@ -31,7 +31,7 @@ static t_ex_ret		get_sections_indexes(t_bin_file *file,
 static t_ex_ret		get_info_from_lc(t_bin_file *file, struct load_command *lc,
 						uint8_t *section_index)
 {
-	struct segment_command_64	*seg;
+	struct segment_command	*seg;
 	uint32_t					lc_cmd;
 
 	lc_cmd = swap_uint32_if(lc->cmd, file->endian);
@@ -42,10 +42,9 @@ static t_ex_ret		get_info_from_lc(t_bin_file *file, struct load_command *lc,
 		if (!file->symtab_lc)
 			return (ft_ret_err2(file->filename, VALID_OBJ_ERR));
 	}
-	else if (lc_cmd == LC_SEGMENT_64)
+	else if (lc_cmd == LC_SEGMENT)
 	{
-		seg = (struct segment_command_64 *)check_and_move(file, lc,
-			sizeof(*seg));
+		seg = (struct segment_command *)check_and_move(file, lc, sizeof(*seg));
 		if (!seg)
 			return (ft_ret_err2(file->filename, VALID_OBJ_ERR));
 		if (get_sections_indexes(file, seg, *section_index) == FAILURE)
@@ -58,9 +57,9 @@ static t_ex_ret		get_info_from_lc(t_bin_file *file, struct load_command *lc,
 static t_ex_ret		init_lc_and_ncmds(t_bin_file *file, uint32_t *header_ncmds,
 						struct load_command	**lc)
 {
-	struct mach_header_64		*header;
+	struct mach_header	*header;
 
-	header = (struct mach_header_64 *)check_and_move(file, file->ptr,
+	header = (struct mach_header *)check_and_move(file, file->ptr,
 		sizeof(*header));
 	*lc = (struct load_command *)check_and_move(file,
 		file->ptr + sizeof(*header), sizeof(**lc));
@@ -83,8 +82,8 @@ static t_ex_ret		get_file_info(t_bin_file *file)
 	i = 0;
 	while (i < header_ncmds)
 	{
-		if (swap_uint32_if(lc->cmdsize, file->endian) % 8 != 0)
-			return (ft_ret_err2(file->filename, CMDSIZE_ERR));
+		// if (swap_uint32_if(lc->cmdsize, file->endian) % 8 != 0)
+		// 	return (ft_ret_err2(file->filename, CMDSIZE_ERR));
 		if (get_info_from_lc(file, lc, &section_index) == FAILURE)
 			return (FAILURE);
 		i++;
@@ -97,7 +96,7 @@ static t_ex_ret		get_file_info(t_bin_file *file)
 	return (SUCCESS);
 }
 
-t_ex_ret			init_64(t_bin_file *file)
+t_ex_ret			init_32(t_bin_file *file)
 {
 	if (get_file_info(file) == FAILURE)
 		return (FAILURE);
