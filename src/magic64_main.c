@@ -38,8 +38,8 @@ static char		get_type_char(uint64_t value, uint8_t type, uint8_t n_sect,
 		type_char = 'C';
 	else if (mask == N_UNDF && (type & N_EXT))
 		type_char = 'U';
-	if (ft_isalpha(type_char) && !(type & N_EXT))
-		type_char = to_lower(type_char);
+	if (!(type & N_EXT))
+		type_char = toggle_char(type_char);
 	return (type_char);
 }
 

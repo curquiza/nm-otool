@@ -1,8 +1,10 @@
 #include "ft_nm.h"
 
-char		to_lower(char c)
+char		toggle_char(char c)
 {
-    return (c ^ TOGGLE_CASE);
+	if (ft_isalpha(c))
+		return (c ^ TOGGLE_CASE);
+	return (c);
 }
 
 t_bool		is_external_symbol(char c)
