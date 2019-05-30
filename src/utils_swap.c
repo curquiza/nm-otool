@@ -18,3 +18,26 @@ uint32_t	swap_uint32_if(uint32_t n, enum e_endian endian)
 	else
 		return (swap_uint32(n));
 }
+
+static uint64_t	swap_uint64(uint64_t n)
+{
+	uint64_t	swap;
+
+	swap = ((n >> 56) & 0xff)
+		| ((n >> 40) & 0xFF00)
+		| ((n >> 24) & 0xFF0000)
+		| ((n >> 8) & 0xFF000000)
+		| ((n << 8) & 0xFF00000000)
+		| ((n << 24) & 0xFF0000000000)
+		| ((n << 40) & 0xFF000000000000)
+		| ((n << 56) & 0xFF00000000000000);
+	return (swap);
+}
+
+uint64_t	swap_uint64_if(uint64_t n, enum e_endian endian)
+{
+	if (endian == MAGIC)
+		return (n);
+	else
+		return (swap_uint64(n));
+}

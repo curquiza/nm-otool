@@ -6,13 +6,15 @@ static t_ex_ret		get_sections_indexes(t_bin_file *file,
 {
 	uint32_t					i;
 	struct section_64			*section;
+	uint32_t					seg_nsects;
 
 	// section = (struct section_64 *)((void *)seg + sizeof(*seg)); //check size
 	// section = (struct section_64 *)check_and_move(file, (void *)seg + sizeof(*seg), sizeof(*section));
 	// if (!section)
 	// 	return (ft_ret_err2(file->filename, VALID_OBJ_ERR));
+	seg_nsects = swap_uint32_if(seg->nsects, file->endian);
 	i = 0;
-	while (i < seg->nsects)
+	while (i < seg_nsects)
 	{
 		section = (struct section_64 *)check_and_move(file,
 			(void *)seg + sizeof(*seg) + i * sizeof(*section),
@@ -38,15 +40,17 @@ static t_ex_ret		get_info_from_lc(t_bin_file *file, struct load_command *lc,
 						uint8_t *section_index)
 {
 	struct segment_command_64	*seg;
+	uint32_t					lc_cmd;
 
-	if (lc->cmd == LC_SYMTAB)
+	lc_cmd = swap_uint32_if(lc->cmd, file->endian);
+	if (lc_cmd == LC_SYMTAB)
 	{
 		// file->symtab_lc = (struct symtab_command *)lc; //check size
 		file->symtab_lc = (struct symtab_command *)check_and_move(file, lc, sizeof(*lc)); //check size
 		if (!file->symtab_lc)
 			return (ft_ret_err2(file->filename, VALID_OBJ_ERR));
 	}
-	else if (lc->cmd == LC_SEGMENT_64)
+	else if (lc_cmd == LC_SEGMENT_64)
 	{
 		// seg = (struct segment_command_64 *)lc;
 		seg = (struct segment_command_64 *)check_and_move(file, lc, sizeof(*seg));
@@ -54,7 +58,7 @@ static t_ex_ret		get_info_from_lc(t_bin_file *file, struct load_command *lc,
 			return (ft_ret_err2(file->filename, VALID_OBJ_ERR));
 		if (get_sections_indexes(file, seg, *section_index) == FAILURE)
 			return (FAILURE);
-		*section_index += seg->nsects;
+		*section_index += swap_uint32_if(seg->nsects, file->endian);
 	}
 	return (SUCCESS);
 }
@@ -65,6 +69,7 @@ static t_ex_ret		get_file_info(t_bin_file *file)
 	uint8_t						section_index;
 	struct load_command			*lc;
 	struct mach_header_64		*header;
+	uint32_t					header_ncmds;
 
 	// header = (struct mach_header_64 *)file->ptr;
 	header = (struct mach_header_64 *)check_and_move(file, file->ptr,
@@ -75,18 +80,20 @@ static t_ex_ret		get_file_info(t_bin_file *file)
 	if (!header || !lc)
 		return (ft_ret_err2(file->filename, VALID_OBJ_ERR));
 	section_index = 1;
+	header_ncmds = swap_uint32_if(header->ncmds, file->endian);
 	i = 0;
-	while (i < header->ncmds)
+	while (i < header_ncmds)
 	{
-		if (lc->cmdsize % 8 != 0)
+		if (swap_uint32_if(lc->cmdsize, file->endian) % 8 != 0)
 			return (ft_ret_err2(file->filename, CMDSIZE_ERR));
 		if (get_info_from_lc(file, lc, &section_index) == FAILURE)
 			return (FAILURE);
 		i++;
 		// lc = (void *)lc + lc->cmdsize; //check size)
 		lc = (struct load_command *)check_and_move(file,
-			(void *)lc + lc->cmdsize, sizeof(*lc)); //check size
-		if (i < header->ncmds && !lc) // sinon on peut depasser la taille du fichier sans que ce soit important car fin de boucle
+			(void *)lc + swap_uint32_if(lc->cmdsize, file->endian),
+			sizeof(*lc)); //check size
+		if (i < header_ncmds && !lc) // sinon on peut depasser la taille du fichier sans que ce soit important car fin de boucle
 			return (ft_ret_err2(file->filename, VALID_OBJ_ERR));
 	}
 	return (SUCCESS);

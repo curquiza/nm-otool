@@ -65,6 +65,7 @@ t_ex_ret		activate_opt(char opt_letter);
 t_bool			opt_is_activated(char opt_letter);
 
 uint32_t		swap_uint32_if(uint32_t n, enum e_endian endian);
+uint64_t		swap_uint64_if(uint64_t n, enum e_endian endian);
 void			*check_and_move(t_bin_file *file, void *dest,
 					size_t needed_size);
 
