@@ -65,7 +65,7 @@ t_ex_ret	handle_64(size_t size, void *ptr, char *filename,
 		}
 		sort_symbols(&file);
 		print_symbols_output(file.symbols,
-			swap_uint32_if(file.symtab_lc->nsyms, file.endian));
+			swap_uint32_if(file.symtab_lc->nsyms, file.endian), VALUE_64);
 		clean(&file);
 	}
 	return (SUCCESS);

@@ -1,16 +1,16 @@
 #include "ft_nm.h"
 
-static void		get_one_symbol(t_bin_file *file, struct nlist_64 *nlist,
+static void		get_one_symbol(t_bin_file *file, struct nlist *nlist,
 					char *string_table, size_t i)
 {
-	uint64_t		n_value;
+	uint32_t		n_value;
 
 	file->symbols[i].name = check_and_move(file, string_table
 			+ swap_uint32_if(nlist[i].n_un.n_strx, file->endian),
 			sizeof(*file->symbols[i].name));
 	if (!file->symbols[i].name)
 		file->symbols[i].name = BAD_STRING_INDEX;
-	n_value = swap_uint64_if(nlist[i].n_value, file->endian);
+	n_value = swap_uint32_if(nlist[i].n_value, file->endian);
 	file->symbols[i].type_char = get_type_char(n_value, nlist[i].n_type, nlist[i].n_sect, file);
 	file->symbols[i].value = n_value;
 
@@ -20,12 +20,12 @@ static t_ex_ret	get_symbols_output(t_bin_file *file)
 {
 	size_t			i;
 	char			*string_table;
-	struct nlist_64	*nlist;
+	struct nlist	*nlist;
 	uint32_t		nsyms;
 
 
 	nsyms = swap_uint32_if(file->symtab_lc->nsyms, file->endian);
-	nlist = (struct nlist_64 *)check_and_move(file, (void *)file->ptr
+	nlist = (struct nlist *)check_and_move(file, (void *)file->ptr
 		+ swap_uint32_if(file->symtab_lc->symoff, file->endian),
 		sizeof(*nlist) * nsyms);
 	if (!nlist)
@@ -44,7 +44,7 @@ static t_ex_ret	get_symbols_output(t_bin_file *file)
 	return (SUCCESS);
 }
 
-t_ex_ret	handle_64(size_t size, void *ptr, char *filename,
+t_ex_ret	handle_32(size_t size, void *ptr, char *filename,
 				enum e_endian endian)
 {
 	t_bin_file	file;
@@ -54,7 +54,7 @@ t_ex_ret	handle_64(size_t size, void *ptr, char *filename,
 	file.ptr = ptr;
 	file.size = size;
 	file.endian = endian;
-	if (init_64(&file) == FAILURE)
+	if (init_32(&file) == FAILURE)
 		return (FAILURE);
 	if (file.symtab_lc)
 	{
@@ -65,7 +65,7 @@ t_ex_ret	handle_64(size_t size, void *ptr, char *filename,
 		}
 		sort_symbols(&file);
 		print_symbols_output(file.symbols,
-			swap_uint32_if(file.symtab_lc->nsyms, file.endian));
+			swap_uint32_if(file.symtab_lc->nsyms, file.endian), VALUE_32);
 		clean(&file);
 	}
 	return (SUCCESS);
