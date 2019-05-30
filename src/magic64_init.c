@@ -78,25 +78,22 @@ static t_ex_ret		get_file_info(t_bin_file *file)
 	i = 0;
 	while (i < header->ncmds)
 	{
+		if (lc->cmdsize % 8 != 0)
+			return (ft_ret_err2(file->filename, CMDSIZE_ERR));
 		if (get_info_from_lc(file, lc, &section_index) == FAILURE)
 			return (FAILURE);
 		i++;
-		// lc = (void *)lc + lc->cmdsize; //check size
+		// lc = (void *)lc + lc->cmdsize; //check size)
 		lc = (struct load_command *)check_and_move(file,
 			(void *)lc + lc->cmdsize, sizeof(*lc)); //check size
 		if (i < header->ncmds && !lc) // sinon on peut depasser la taille du fichier sans que ce soit important car fin de boucle
-			return (FAILURE);
+			return (ft_ret_err2(file->filename, VALID_OBJ_ERR));
 	}
 	return (SUCCESS);
 }
 
-t_ex_ret			init_magic64(t_bin_file *file, void *ptr, size_t size,
-						char *filename)
+t_ex_ret			init_magic64(t_bin_file *file)
 {
-	ft_bzero(file, sizeof(*file));
-	file->filename = filename;
-	file->ptr = ptr;
-	file->size = size;
 	if (get_file_info(file) == FAILURE)
 		return (FAILURE);
 	if (file->symtab_lc)
