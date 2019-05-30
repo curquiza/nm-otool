@@ -85,7 +85,7 @@ static t_ex_ret	get_symbols_output(t_bin_file *file)
 	return (SUCCESS);
 }
 
-t_ex_ret	handle_magic_64(size_t size, void *ptr, char *filename,
+t_ex_ret	handle_64(size_t size, void *ptr, char *filename,
 				enum e_endian endian)
 {
 	t_bin_file	file;
@@ -95,19 +95,19 @@ t_ex_ret	handle_magic_64(size_t size, void *ptr, char *filename,
 	file.ptr = ptr;
 	file.size = size;
 	file.endian = endian;
-	if (init_magic64(&file) == FAILURE)
+	if (init_64(&file) == FAILURE)
 		return (FAILURE);
 	if (file.symtab_lc)
 	{
 		if (get_symbols_output(&file) == FAILURE)
 		{
-			clean_magic64(&file);
+			clean(&file);
 			return (FAILURE);
 		}
 		sort_symbols(&file);
 		print_symbols_output(file.symbols,
 			swap_uint32_if(file.symtab_lc->nsyms, file.endian));
-		clean_magic64(&file);
+		clean(&file);
 	}
 	return (SUCCESS);
 }

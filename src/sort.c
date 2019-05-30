@@ -91,13 +91,12 @@ t_ex_ret	sort_symbols(t_bin_file *file)
 	if (opt_is_activated('p') == TRUE)
 		return (SUCCESS);
 	nsyms = swap_uint32_if(file->symtab_lc->nsyms, file->endian);
-	if (merge_sort(file->symbols, 0, nsyms - 1,
-			&alpha_sort_comp) == FAILURE)
+	if (merge_sort(file->symbols, 0, nsyms - 1, &alpha_sort_comp) == FAILURE)
 		return (FAILURE);
 	if (opt_is_activated('n') == TRUE)
 	{
-		if (merge_sort(file->symbols, 0, nsyms - 1,
-				&value_sort_comp) == FAILURE)
+		if (merge_sort(file->symbols, 0, nsyms - 1, &value_sort_comp)
+			== FAILURE)
 			return (FAILURE);
 	}
 	if (opt_is_activated('r') == TRUE)

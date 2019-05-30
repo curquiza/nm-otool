@@ -8,12 +8,12 @@ SRC = $(addprefix $(SRC_DIR)/, \
 		utils.c \
 		utils_options.c \
 		utils_swap.c \
+		utils_check_size.c \
 		sort.c \
 		sort_comp_func.c \
-		check_file_size.c \
 		process_single_file.c \
-		magic64_init.c \
-		magic64_main.c \
+		file64_init.c \
+		file64_main.c \
 		print_symb_output.c \
 		clean.c \
 		main.c)

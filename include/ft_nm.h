@@ -71,8 +71,8 @@ void			*check_and_move(t_bin_file *file, void *dest,
 
 t_ex_ret		process_single_file(char *filename, t_bool multi_display);
 
-t_ex_ret		init_magic64(t_bin_file *file);
-t_ex_ret		handle_magic_64(size_t size, void *ptr, char *filename,
+t_ex_ret		init_64(t_bin_file *file);
+t_ex_ret		handle_64(size_t size, void *ptr, char *filename,
 					enum e_endian endian);
 
 t_bool			value_sort_comp(t_symbol *symb1, t_symbol *symb2);
@@ -81,6 +81,6 @@ t_ex_ret		sort_symbols(t_bin_file *file);
 
 void			print_symbols_output(t_symbol *symbols, size_t sym_count);
 
-void			clean_magic64(t_bin_file *file);
+void			clean(t_bin_file *file);
 
 #endif

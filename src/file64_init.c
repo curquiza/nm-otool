@@ -99,7 +99,7 @@ static t_ex_ret		get_file_info(t_bin_file *file)
 	return (SUCCESS);
 }
 
-t_ex_ret			init_magic64(t_bin_file *file)
+t_ex_ret			init_64(t_bin_file *file)
 {
 	if (get_file_info(file) == FAILURE)
 		return (FAILURE);

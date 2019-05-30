@@ -12,7 +12,7 @@ static t_ex_ret	ft_nm(size_t size, void *ptr, char *filename)
 	else if (magic_number == MH_MAGIC_64)
 	{
 		// ft_printf("MAGIC 64 bits\n");
-		return (handle_magic_64(size, ptr, filename, MAGIC));
+		return (handle_64(size, ptr, filename, MAGIC));
 	}
 	else if (magic_number == MH_CIGAM)
 	{
@@ -21,7 +21,7 @@ static t_ex_ret	ft_nm(size_t size, void *ptr, char *filename)
 	else if (magic_number == MH_CIGAM_64)
 	{
 		ft_printf("CIGAM 64 bits\n");
-		// return (handle_magic_64(size, ptr, filename, CIGAM));
+		// return (handle_64(size, ptr, filename, CIGAM));
 	}
 	else
 	{
