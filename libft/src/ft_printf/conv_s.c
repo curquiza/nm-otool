@@ -20,7 +20,16 @@ int			ft_conv_s(va_list arg, t_arg *current)
 		return (ft_conv_bigs(arg, current));
 	s = va_arg(arg, char *);
 	if (s)
-		current->rslt = ft_strdup(s);
+	{
+		if (current->precision == 1)
+		{
+			if (!(current->rslt = (char *)ft_strnew(current->preci_digit)))
+				ft_exit("ft_printf: Malloc error", 1);
+			ft_memmove(current->rslt, s, current->preci_digit);
+		}
+		else
+			current->rslt = ft_strdup(s);
+	}
 	else
 		current->rslt = ft_strdup("(null)");
 	current->conv_len = ft_strlen(current->rslt);

@@ -8,8 +8,6 @@ void		print_symbols_output(t_symbol *symbols, size_t sym_count,
 	i = 0;
 	while (i < sym_count)
 	{
-		// if (!symbols[i].name)
-		// 	symbols[i].name = BAD_STRING_INDEX;
 		if (symbols[i].type_char == '-')
 			;
 		else if (opt_is_activated('g')
@@ -22,24 +20,23 @@ void		print_symbols_output(t_symbol *symbols, size_t sym_count,
 			&& is_undefined_symb(symbols[i].type_char))
 			;
 		else if (opt_is_activated('j') || opt_is_activated('u'))
-			ft_printf("%s\n", symbols[i].name);
+			ft_printf("%.538s\n", symbols[i].name);
 		else if (is_undefined_symb(symbols[i].type_char))
 		{
 			if (value_type == VALUE_64)
-				ft_printf("%18c %s\n", symbols[i].type_char, symbols[i].name);
+				ft_printf("%18c %.538s\n", symbols[i].type_char, symbols[i].name);
 			else
-				ft_printf("%10c %s\n", symbols[i].type_char, symbols[i].name);
+				ft_printf("%10c %.538s\n", symbols[i].type_char, symbols[i].name);
 		}
 		else
 		{
 			if (value_type == VALUE_64)
-				ft_printf("%.16llx %c %s\n", symbols[i].value,
+				ft_printf("%.16llx %c %.538s\n", symbols[i].value,
 					symbols[i].type_char, symbols[i].name);
 			else
-				ft_printf("%.8llx %c %s\n", symbols[i].value,
+				ft_printf("%.8llx %c %.538s\n", symbols[i].value,
 					symbols[i].type_char, symbols[i].name);
 		}
-
 		i++;
 	}
 }
