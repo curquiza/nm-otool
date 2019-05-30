@@ -48,7 +48,7 @@ uint8_t			g_flags;
 ** Function Prototypes
 */
 
-char			to_lower(char c);
+char			toggle_char(char c);
 t_bool			is_external_symbol(char c);
 t_bool			is_undefined_symb(char c);
 t_ex_ret		ret_malloc_err(void);
