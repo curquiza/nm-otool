@@ -14,6 +14,7 @@ SRC = $(addprefix $(SRC_DIR)/, \
 		process_single_file.c \
 		file64_init.c \
 		file64_main.c \
+		get_type_char.c \
 		print_symb_output.c \
 		clean.c \
 		main.c)

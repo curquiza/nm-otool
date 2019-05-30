@@ -69,6 +69,9 @@ uint64_t		swap_uint64_if(uint64_t n, enum e_endian endian);
 void			*check_and_move(t_bin_file *file, void *dest,
 					size_t needed_size);
 
+char			get_type_char(uint64_t value, uint8_t type, uint8_t n_sect,
+					t_bin_file *file);
+
 t_ex_ret		process_single_file(char *filename, t_bool multi_display);
 
 t_ex_ret		init_64(t_bin_file *file);
