@@ -27,8 +27,8 @@ t_ex_ret	ft_nm(uint64_t size, void *ptr, char *filename)
 	}
 	else if (magic_number == FAT_MAGIC)
 	{
-		ft_printf("FAT_MAGIC 32\n");
-		handle_fat32(filename, size, ptr, MAGIC);
+		// ft_printf("FAT_MAGIC 32\n");
+		return (handle_fat32(filename, size, ptr, MAGIC));
 	}
 	else if (magic_number == FAT_MAGIC_64)
 	{
@@ -36,8 +36,8 @@ t_ex_ret	ft_nm(uint64_t size, void *ptr, char *filename)
 	}
 	else if (magic_number == FAT_CIGAM)
 	{
-		ft_printf("FAT_CIGAM 32\n");
-		handle_fat32(filename, size, ptr, CIGAM);
+		// ft_printf("FAT_CIGAM 32\n");
+		return (handle_fat32(filename, size, ptr, CIGAM));
 	}
 	else if (magic_number == FAT_CIGAM_64)
 	{

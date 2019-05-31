@@ -36,3 +36,8 @@ t_ex_ret	ret_usage(void)
 	ft_dprintf(2, "  -U : don't display undefined symbols\n");
 	return (FAILURE);
 }
+
+t_bool		is_archi_x86_64(cpu_type_t cpu_type)
+{
+	return (cpu_type == CPU_TYPE_X86_64);
+}

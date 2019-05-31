@@ -67,6 +67,7 @@ uint8_t			g_flags;
 char			toggle_char(char c);
 t_bool			is_external_symbol(char c);
 t_bool			is_undefined_symb(char c);
+t_bool			is_archi_x86_64(cpu_type_t cpu_type);
 t_ex_ret		ret_malloc_err(void);
 t_ex_ret		ret_usage(void);
 t_ex_ret		activate_opt(char opt_letter);
