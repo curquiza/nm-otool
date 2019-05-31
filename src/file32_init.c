@@ -61,9 +61,11 @@ static t_ex_ret		init_lc_and_ncmds(t_bin_file *file, uint32_t *header_ncmds,
 
 	header = (struct mach_header *)check_and_move(file, file->ptr,
 		sizeof(*header));
+	if (!header)
+		return (ft_ret_err2(file->filename, VALID_OBJ_ERR));
 	*lc = (struct load_command *)check_and_move(file,
 		file->ptr + sizeof(*header), sizeof(**lc));
-	if (!header || !*lc)
+	if (!*lc)
 		return (ft_ret_err2(file->filename, FILE_END_ERR));
 	*header_ncmds = swap_uint32_if(header->ncmds, file->endian);
 	return (SUCCESS);

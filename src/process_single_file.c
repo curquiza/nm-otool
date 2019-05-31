@@ -17,6 +17,7 @@ static t_ex_ret	ft_nm(size_t size, void *ptr, char *filename)
 	}
 	else if (magic_number == MH_CIGAM)
 	{
+		// ft_printf("CIGAM 32 bits\n");
 		return (handle_32(size, ptr, filename, CIGAM));
 	}
 	else if (magic_number == MH_CIGAM_64)
