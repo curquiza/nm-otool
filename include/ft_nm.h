@@ -20,7 +20,7 @@
 # define CMDSIZE_ERR	"Malformed object (cmdsize not a multiple of 8)"
 # define FILE_END_ERR	"Malformed object (extends past the end of the file)"
 
-# define BAD_STRING_INDEX		"bad string index"
+# define BAD_STRING_INDEX	"bad string index"
 
 enum			e_endian
 {

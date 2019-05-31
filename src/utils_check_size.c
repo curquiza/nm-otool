@@ -6,6 +6,3 @@ void	*check_and_move(t_bin_file *file, void *dest, size_t needed_size)
 		return (NULL);
 	return (dest);
 }
-
-
-
