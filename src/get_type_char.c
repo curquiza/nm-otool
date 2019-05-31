@@ -27,8 +27,8 @@ char		get_type_char(uint64_t value, uint8_t type, uint8_t n_sect,
 	mask = type & N_TYPE;
 	if (mask == N_ABS)
 		type_char = 'A';
-	else if (mask == N_PBUD)
-		type_char = 'P';
+	// else if (mask == N_PBUD)
+	// 	type_char = 'P';
 	else if (mask == N_INDR)
 		type_char = 'I';
 	else if (mask == N_SECT)

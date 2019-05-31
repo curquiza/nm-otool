@@ -30,12 +30,12 @@ static t_ex_ret	get_symbols_output(t_bin_file *file)
 		+ swap_uint32_if(file->symtab_lc->symoff, file->endian),
 		sizeof(*nlist) * nsyms);
 	if (!nlist)
-		return (ft_ret_err2(file->filename, VALID_OBJ_ERR));
+		return (ft_ret_err2(file->filename, FILE_END_ERR));
 	string_table = check_and_move(file,
 		file->ptr + swap_uint32_if(file->symtab_lc->stroff, file->endian),
 		sizeof(*string_table));
 	if (!string_table)
-		return (ft_ret_err2(file->filename, VALID_OBJ_ERR));
+		return (ft_ret_err2(file->filename, FILE_END_ERR));
 	i = 0;
 	while (i < nsyms)
 	{

@@ -16,7 +16,7 @@ static t_ex_ret		get_sections_indexes(t_bin_file *file,
 			(void *)seg + sizeof(*seg) + i * sizeof(*section),
 			sizeof(*section));
 		if (!section)
-			return (ft_ret_err2(file->filename, VALID_OBJ_ERR));
+			return (ft_ret_err2(file->filename, FILE_END_ERR));
 		if (ft_strcmp(section->sectname, SECT_TEXT) == 0)
 			file->text_index = current_sect_index + i;
 		else if (ft_strcmp(section->sectname, SECT_DATA) == 0)
@@ -40,14 +40,14 @@ static t_ex_ret		get_info_from_lc(t_bin_file *file, struct load_command *lc,
 		file->symtab_lc = (struct symtab_command *)check_and_move(file, lc,
 			sizeof(*lc)); //check size
 		if (!file->symtab_lc)
-			return (ft_ret_err2(file->filename, VALID_OBJ_ERR));
+			return (ft_ret_err2(file->filename, FILE_END_ERR));
 	}
 	else if (lc_cmd == LC_SEGMENT_64)
 	{
 		seg = (struct segment_command_64 *)check_and_move(file, lc,
 			sizeof(*seg));
 		if (!seg)
-			return (ft_ret_err2(file->filename, VALID_OBJ_ERR));
+			return (ft_ret_err2(file->filename, FILE_END_ERR));
 		if (get_sections_indexes(file, seg, *section_index) == FAILURE)
 			return (FAILURE);
 		*section_index += swap_uint32_if(seg->nsects, file->endian);
@@ -62,10 +62,12 @@ static t_ex_ret		init_lc_and_ncmds(t_bin_file *file, uint32_t *header_ncmds,
 
 	header = (struct mach_header_64 *)check_and_move(file, file->ptr,
 		sizeof(*header));
+	if (!header)
+		return (ft_ret_err2(file->filename, VALID_OBJ_ERR));
 	*lc = (struct load_command *)check_and_move(file,
 		file->ptr + sizeof(*header), sizeof(**lc));
-	if (!header || !*lc)
-		return (ft_ret_err2(file->filename, VALID_OBJ_ERR));
+	if (!*lc)
+		return (ft_ret_err2(file->filename, FILE_END_ERR));
 	*header_ncmds = swap_uint32_if(header->ncmds, file->endian);
 	return (SUCCESS);
 }
@@ -92,7 +94,7 @@ static t_ex_ret		get_file_info(t_bin_file *file)
 			(void *)lc + swap_uint32_if(lc->cmdsize, file->endian),
 			sizeof(*lc));
 		if (i < header_ncmds && !lc)
-			return (ft_ret_err2(file->filename, VALID_OBJ_ERR));
+			return (ft_ret_err2(file->filename, FILE_END_ERR));
 	}
 	return (SUCCESS);
 }
