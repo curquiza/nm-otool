@@ -21,12 +21,16 @@ void		print_symbols_output(t_symbol *symbols, size_t sym_count,
 			;
 		else if (opt_is_activated('j') || opt_is_activated('u'))
 			ft_printf("%.538s\n", symbols[i].name);
-		else if (is_undefined_symb(symbols[i].type_char))
+		else if (is_undefined_symb(symbols[i].type_char)
+			|| symbols[i].type_char == 'I')
 		{
 			if (value_type == VALUE_64)
-				ft_printf("%18c %.538s\n", symbols[i].type_char, symbols[i].name);
+				ft_printf("%18c %.538s", symbols[i].type_char, symbols[i].name);
 			else
-				ft_printf("%10c %.538s\n", symbols[i].type_char, symbols[i].name);
+				ft_printf("%10c %.538s", symbols[i].type_char, symbols[i].name);
+			if (symbols[i].type_char == 'I' && ft_strcmp(symbols[i].name, BAD_STRING_INDEX) == 0)
+				ft_putstr(" (indirect for ?)");
+			ft_putchar('\n');
 		}
 		else
 		{
