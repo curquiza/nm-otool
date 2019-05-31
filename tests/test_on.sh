@@ -7,13 +7,20 @@ DEF="\033[0m"
 
 nm_bin="/Users/curquiza/Documents/nm-otool/ft_nm"
 
+printf "\n%.-78s $YELLOW%s   %s$DEF\n" "" "OUTPUT" "RETURN"
 
-for folder in "$@"
+for arg in "$@"
 do
-    printf "\n%.-78s $YELLOW%s   %s$DEF\n" "" "OUTPUT" "RETURN"
 
-    echo "FOLDER : $folder"
-    for file in $folder/*; do
+    echo ""
+    if [[ -d "$arg" ]]; then
+        # echo "FOLDER : $arg"
+        loop=$arg/*
+    elif [[ -f "$arg" ]]; then
+        loop=$arg
+    fi
+
+    for file in $loop; do
 
         # CHECK SEGFAULT
         $("$nm_bin" $file > /dev/null 2>&1)
