@@ -35,7 +35,7 @@ t_ex_ret	process_single_file(char *filename, t_bool multi_display)
 {
 	int			fd;
 	void		*ptr;
-	struct stat buf;
+	struct		stat buf;
 	t_ex_ret	ret;
 
 	ptr = NULL;
