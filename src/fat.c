@@ -22,26 +22,35 @@ static char	*get_archi_name(cpu_type_t cpu_type, cpu_subtype_t cpu_subtype)
 	return ("");
 }
 
-static t_ex_ret	if_same_arch_process(void *ptr, enum e_endian endian, char *filename)
+static t_ex_ret	if_same_arch_process(t_bin_file *file)
 {
 	struct fat_header	*header;
 	uint32_t			arch_nb;
 	struct fat_arch		*arch;
 
-	header = (struct fat_header*)ptr;
-	arch_nb = swap_uint32_if(header->nfat_arch, endian);
-	arch = ptr + sizeof(struct fat_header);
+	// header = (struct fat_header*)file->ptr;
+	if (!(header = (struct fat_header*)check_and_move(file, file->ptr,
+			sizeof(*header))))
+		return (ft_ret_err2(file->filename, VALID_OBJ_ERR));
+	arch_nb = swap_uint32_if(header->nfat_arch, file->endian);
+	// arch = file->ptr + sizeof(struct fat_header);
+	arch = (struct fat_arch *)check_and_move(file, file->ptr + sizeof(struct fat_header), sizeof(*arch));
+	if (!arch)
+		return (ft_ret_err2(file->filename, FILE_END_ERR));
 	while (arch_nb--)
 	{
-		if (is_archi_x86_64(swap_uint32_if(arch->cputype, endian)) == TRUE)
-			return (ft_nm(swap_uint32_if(arch->size, endian),
-						ptr + swap_uint32_if(arch->offset, endian), filename));
-		arch++;
+		if (is_archi_x86_64(swap_uint32_if(arch->cputype, file->endian)))
+			return (ft_nm(swap_uint32_if(arch->size, file->endian),
+					file->ptr + swap_uint32_if(arch->offset, file->endian),
+					file->filename));
+		arch = (struct fat_arch *)check_and_move(file, arch + 1, sizeof(*arch));
+		if (!arch)
+			return (ft_ret_err2(file->filename, FILE_END_ERR));
 	}
 	return (-1);
 }
 
-static t_ex_ret not_same_arch_process(void *ptr, enum e_endian endian, char *filename)
+static t_ex_ret not_same_arch_process(t_bin_file *file)
 {
 	struct fat_header	*header;
 	uint32_t			arch_nb;
@@ -49,19 +58,31 @@ static t_ex_ret not_same_arch_process(void *ptr, enum e_endian endian, char *fil
 	cpu_type_t			cpu_type;
 	cpu_subtype_t		cpu_subtype;
 
-	header = (struct fat_header*)ptr;
-	arch_nb = swap_uint32_if(header->nfat_arch, endian);
-	arch = ptr + sizeof(struct fat_header);
+	// header = (struct fat_header*)file->ptr;
+	if (!(header = (struct fat_header*)check_and_move(file, file->ptr,
+			sizeof(*header))))
+		return (ft_ret_err2(file->filename, VALID_OBJ_ERR));
+	arch_nb = swap_uint32_if(header->nfat_arch, file->endian);
+	arch = (struct fat_arch *)check_and_move(file, file->ptr + sizeof(struct fat_header), sizeof(*arch));
+	if (!arch)
+		return (ft_ret_err2(file->filename, FILE_END_ERR));
 	while (arch_nb--)
 	{
-		cpu_type = swap_uint32_if(arch->cputype, endian);
-		cpu_subtype = swap_uint32_if(arch->cpusubtype, endian);
+		cpu_type = swap_uint32_if(arch->cputype, file->endian);
+		cpu_subtype = swap_uint32_if(arch->cpusubtype, file->endian);
 		ft_printf("\n%s (for architecture %s):\n",
-			filename, get_archi_name(cpu_type, cpu_subtype));
-		if (ft_nm(swap_uint32_if(arch->size, endian),
-			ptr + swap_uint32_if(arch->offset, endian), filename) == FAILURE)
+			file->filename, get_archi_name(cpu_type, cpu_subtype));
+
+		if (!check_and_move(file, file->ptr + swap_uint32_if(arch->offset, file->endian), 1))
+			return (ft_ret_err2(file->filename, FILE_END_ERR));
+
+		if (ft_nm(swap_uint32_if(arch->size, file->endian),
+			file->ptr + swap_uint32_if(arch->offset, file->endian),
+			file->filename) == FAILURE)
 			return (FAILURE);
-		arch++;
+		arch = (struct fat_arch *)check_and_move(file, arch + 1, sizeof(*arch));
+		if (!arch)
+			return (ft_ret_err2(file->filename, FILE_END_ERR));
 	}
 	return (SUCCESS);
 }
@@ -69,12 +90,15 @@ static t_ex_ret not_same_arch_process(void *ptr, enum e_endian endian, char *fil
 t_ex_ret	handle_fat32(char *filename, uint64_t size, void *ptr,
 				enum e_endian endian)
 {
-
+	t_bin_file			file;
 	t_ex_ret			ret;
 
-	(void)size;
-	ret = if_same_arch_process(ptr, endian, filename);
+	file.filename = filename;
+	file.size = size;
+	file.ptr = ptr;
+	file.endian = endian;
+	ret = if_same_arch_process(&file);
 	if (ret == FAILURE || ret == SUCCESS)
 		return (ret);
-	return (not_same_arch_process(ptr, endian, filename));
+	return (not_same_arch_process(&file));
 }
