@@ -8,6 +8,7 @@
 # include <sys/mman.h>
 # include <mach-o/loader.h>
 # include <mach-o/nlist.h>
+# include <mach-o/fat.h>
 # include <errno.h>
 
 # define OPTIONS		"gjnpruU"
@@ -46,7 +47,7 @@ typedef struct	s_bin_file
 	char					*filename;
 	enum e_endian			endian;
 	void					*ptr;
-	size_t					size;
+	uint64_t				size;
 	struct symtab_command	*symtab_lc; //generique ?
 	t_symbol				*symbols;
 	uint8_t					text_index;
@@ -74,7 +75,7 @@ t_bool			opt_is_activated(char opt_letter);
 uint32_t		swap_uint32_if(uint32_t n, enum e_endian endian);
 uint64_t		swap_uint64_if(uint64_t n, enum e_endian endian);
 void			*check_and_move(t_bin_file *file, void *dest,
-					size_t needed_size);
+					uint64_t needed_size);
 
 char			get_type_char(uint64_t value, uint8_t type, uint8_t n_sect,
 					t_bin_file *file);
@@ -82,11 +83,14 @@ char			get_type_char(uint64_t value, uint8_t type, uint8_t n_sect,
 t_ex_ret		process_single_file(char *filename, t_bool multi_display);
 
 t_ex_ret		init_64(t_bin_file *file);
-t_ex_ret		handle_64(size_t size, void *ptr, char *filename,
+t_ex_ret		handle_64(uint64_t size, void *ptr, char *filename,
 					enum e_endian endian);
 t_ex_ret		init_32(t_bin_file *file);
-t_ex_ret		handle_32(size_t size, void *ptr, char *filename,
+t_ex_ret		handle_32(uint64_t size, void *ptr, char *filename,
 					enum e_endian endian);
+t_ex_ret		handle_fat32(char *filename, uint64_t size, void *ptr, enum e_endian endian);
+t_ex_ret		ft_nm(uint64_t size, void *ptr, char *filename);
+
 
 t_bool			value_sort_comp(t_symbol *symb1, t_symbol *symb2);
 t_bool			alpha_sort_comp(t_symbol *symb1, t_symbol *symb2);

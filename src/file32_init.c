@@ -32,7 +32,7 @@ static t_ex_ret		get_info_from_lc(t_bin_file *file, struct load_command *lc,
 						uint8_t *section_index)
 {
 	struct segment_command	*seg;
-	uint32_t					lc_cmd;
+	uint32_t				lc_cmd;
 
 	lc_cmd = swap_uint32_if(lc->cmd, file->endian);
 	if (lc_cmd == LC_SYMTAB)

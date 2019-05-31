@@ -5,7 +5,7 @@ RED="\033[1;31m"
 YELLOW="\033[1;33m"
 DEF="\033[0m"
 
-nm_bin="/Users/curquizar/Documents/nm-otool/ft_nm"
+nm_bin="/Users/curquiza/Documents/nm-otool/ft_nm"
 
 
 for folder in "$@"

@@ -16,6 +16,8 @@ SRC = $(addprefix $(SRC_DIR)/, \
 		file64_main.c \
 		file32_init.c \
 		file32_main.c \
+		fat.c \
+		ft_nm.c \
 		get_type_char.c \
 		print_symb_output.c \
 		clean.c \
@@ -52,7 +54,7 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(H_DIR)
 	@printf "%-45s\033[1;32m%s\033[0m\n" "Make $@" "OK"
 
 run_test:
-	python3 tests/main_tests.py
+	python3.7 tests/main_tests.py
 
 clean :
 	@rm -rf $(OBJ_DIR)
