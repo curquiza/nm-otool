@@ -1,23 +1,15 @@
 #include "ft_nm.h"
 
-static char	*get_archi_name(cpu_type_t cpu_type, cpu_subtype_t cpu_subtype)
+static t_ex_ret exec_same_arch(t_bin_file *file, struct fat_arch *arch)
 {
-	// ft_printf("archi = %d\n", cpu_type);
-	// ft_printf("sub archi = %d\n", cpu_subtype);
+	uint32_t	size;
+	uint32_t	offset;
 
-	if (cpu_type == CPU_TYPE_I386)
-		return ("i386");
-	else if (cpu_type == CPU_TYPE_POWERPC)
-		return ("ppc");
-	else if (cpu_type == CPU_TYPE_POWERPC64)
-		return ("ppc64");
-	else if (cpu_type == CPU_TYPE_ARM64)
-		return ("arm64");
-	else if (cpu_type == CPU_TYPE_ARM  && cpu_subtype == CPU_SUBTYPE_ARM_V7)
-		return ("armv7");
-	else if (cpu_type == CPU_TYPE_ARM  && cpu_subtype == CPU_SUBTYPE_ARM_V7S)
-		return ("armv7s");
-	return ("");
+	size = swap_uint32_if(arch->size, file->endian);
+	offset = swap_uint32_if(arch->offset, file->endian);
+	if (!check_and_move(file, file->ptr + offset, size))
+		return (ft_ret_err2(file->filename, FILE_END_ERR));
+	return (ft_nm(size, file->ptr + offset, file->filename));
 }
 
 static t_ex_ret	if_same_arch_process(t_bin_file *file)
@@ -26,25 +18,18 @@ static t_ex_ret	if_same_arch_process(t_bin_file *file)
 	uint32_t			arch_nb;
 	struct fat_arch		*arch;
 
-	// header = (struct fat_header*)file->ptr;
 	if (!(header = (struct fat_header*)check_and_move(file, file->ptr,
 			sizeof(*header))))
 		return (ft_ret_err2(file->filename, VALID_OBJ_ERR));
 	arch_nb = swap_uint32_if(header->nfat_arch, file->endian);
-	// arch = file->ptr + sizeof(struct fat_header);
-	arch = (struct fat_arch *)check_and_move(file, file->ptr + sizeof(struct fat_header), sizeof(*arch));
+	arch = (struct fat_arch *)check_and_move(file,
+		file->ptr + sizeof(struct fat_header), sizeof(*arch));
 	if (!arch)
 		return (ft_ret_err2(file->filename, FILE_END_ERR));
 	while (arch_nb--)
 	{
 		if (is_archi_x86_64(swap_uint32_if(arch->cputype, file->endian)))
-		{
-			if (!check_and_move(file, file->ptr + swap_uint32_if(arch->offset, file->endian), swap_uint32_if(arch->size, file->endian)))
-				return (ft_ret_err2(file->filename, FILE_END_ERR));
-			return (ft_nm(swap_uint32_if(arch->size, file->endian),
-					file->ptr + swap_uint32_if(arch->offset, file->endian),
-					file->filename));
-		}
+			return (exec_same_arch(file, arch));
 		arch = (struct fat_arch *)check_and_move(file, arch + 1, sizeof(*arch));
 		if (!arch)
 			return (ft_ret_err2(file->filename, FILE_END_ERR));
@@ -52,36 +37,46 @@ static t_ex_ret	if_same_arch_process(t_bin_file *file)
 	return (-1);
 }
 
+
+static t_ex_ret	exec_diff_arch(t_bin_file *file, struct fat_arch *arch)
+{
+	cpu_type_t			cpu_type;
+	cpu_subtype_t		cpu_subtype;
+	uint32_t	size;
+	uint32_t	offset;
+
+	size = swap_uint32_if(arch->size, file->endian);
+	offset = swap_uint32_if(arch->offset, file->endian);
+	cpu_type = swap_uint32_if(arch->cputype, file->endian);
+	cpu_subtype = swap_uint32_if(arch->cpusubtype, file->endian);
+	ft_printf("\n%s (for architecture %s):\n",
+		file->filename, get_archi_name(cpu_type, cpu_subtype));
+	if (!check_and_move(file, file->ptr + offset, size))
+		return (ft_ret_err2(file->filename, FILE_END_ERR));
+	if (ft_nm(size, file->ptr + offset, file->filename) == FAILURE)
+		return (FAILURE);
+	return (SUCCESS);
+}
+
 static t_ex_ret not_same_arch_process(t_bin_file *file)
 {
 	struct fat_header	*header;
 	uint32_t			arch_nb;
 	struct fat_arch		*arch;
-	cpu_type_t			cpu_type;
-	cpu_subtype_t		cpu_subtype;
+
 
 	if (!(header = (struct fat_header*)check_and_move(file, file->ptr,
 			sizeof(*header))))
 		return (ft_ret_err2(file->filename, VALID_OBJ_ERR));
 	arch_nb = swap_uint32_if(header->nfat_arch, file->endian);
-	arch = (struct fat_arch *)check_and_move(file, file->ptr + sizeof(struct fat_header), sizeof(*arch));
+	arch = (struct fat_arch *)check_and_move(file,
+		file->ptr + sizeof(struct fat_header), sizeof(*arch));
 	if (!arch)
 		return (ft_ret_err2(file->filename, FILE_END_ERR));
 	while (arch_nb--)
 	{
-		cpu_type = swap_uint32_if(arch->cputype, file->endian);
-		cpu_subtype = swap_uint32_if(arch->cpusubtype, file->endian);
-		ft_printf("\n%s (for architecture %s):\n",
-			file->filename, get_archi_name(cpu_type, cpu_subtype));
-
-		if (!check_and_move(file, file->ptr + swap_uint32_if(arch->offset, file->endian), swap_uint32_if(arch->size, file->endian)))
-			return (ft_ret_err2(file->filename, FILE_END_ERR));
-
-		if (ft_nm(swap_uint32_if(arch->size, file->endian),
-			file->ptr + swap_uint32_if(arch->offset, file->endian),
-			file->filename) == FAILURE)
+		if (exec_diff_arch(file, arch) == FAILURE)
 			return (FAILURE);
-
 		arch = (struct fat_arch *)check_and_move(file, arch + 1, sizeof(*arch));
 		if (!arch)
 			return (ft_ret_err2(file->filename, FILE_END_ERR));
@@ -89,7 +84,7 @@ static t_ex_ret not_same_arch_process(t_bin_file *file)
 	return (SUCCESS);
 }
 
-t_ex_ret	handle_fat32(char *filename, uint64_t size, void *ptr,
+t_ex_ret		handle_fat32(char *filename, uint64_t size, void *ptr,
 				enum e_endian endian)
 {
 	t_bin_file			file;

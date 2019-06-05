@@ -80,6 +80,7 @@ void			*check_and_move(t_bin_file *file, void *dest,
 
 char			get_type_char(uint64_t value, uint8_t type, uint8_t n_sect,
 					t_bin_file *file);
+char			*get_archi_name(cpu_type_t cpu_type, cpu_subtype_t cpu_subtype);
 
 t_ex_ret		process_single_file(char *filename, t_bool multi_display);
 

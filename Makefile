@@ -19,6 +19,7 @@ SRC = $(addprefix $(SRC_DIR)/, \
 		fat.c \
 		ft_nm.c \
 		get_type_char.c \
+		get_arch.c \
 		print_symb_output.c \
 		clean.c \
 		main.c)
