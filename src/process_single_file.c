@@ -1,6 +1,6 @@
 #include "ft_nm.h"
 
-t_ex_ret	process_single_file(char *filename, t_bool multi_display)
+t_ex_ret	process_single_file(char *filename)
 {
 	int			fd;
 	void		*ptr;
@@ -31,9 +31,10 @@ t_ex_ret	process_single_file(char *filename, t_bool multi_display)
 	// else
 	//	affichage du name (si multi_display == true)
 	//	ft_nm(buf.st_size, ptr, filename, NULL);
-	if (multi_display == TRUE)
-		ft_printf("\n%s\n", filename);
-	ret = ft_nm(buf.st_size, ptr, filename);
+
+	// if (g_multi_display == TRUE)
+	// 	ft_printf("\n%s\n", filename);
+	ret = ft_nm(buf.st_size, ptr, filename, NULL);
 
 	// ou archivage dans nm = on appelle nm en récursive:
 	// on remplit g_filename

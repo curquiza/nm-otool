@@ -10,6 +10,8 @@
 # include <mach-o/nlist.h>
 # include <mach-o/fat.h>
 # include <errno.h>
+# include <ar.h>
+# include <mach-o/ranlib.h>
 
 # define OPTIONS		"gjnpruU"
 # define TOGGLE_CASE	32
@@ -59,6 +61,7 @@ typedef struct	s_bin_file
 // - flags
 // - filename ?
 uint8_t			g_flags;
+t_bool			g_multi_display;
 
 /*
 ** Function Prototypes
@@ -82,7 +85,7 @@ char			get_type_char(uint64_t value, uint8_t type, uint8_t n_sect,
 					t_bin_file *file);
 char			*get_archi_name(cpu_type_t cpu_type, cpu_subtype_t cpu_subtype);
 
-t_ex_ret		process_single_file(char *filename, t_bool multi_display);
+t_ex_ret		process_single_file(char *filename);
 
 t_ex_ret		init_64(t_bin_file *file);
 t_ex_ret		handle_64(uint64_t size, void *ptr, char *filename,
@@ -91,7 +94,8 @@ t_ex_ret		init_32(t_bin_file *file);
 t_ex_ret		handle_32(uint64_t size, void *ptr, char *filename,
 					enum e_endian endian);
 t_ex_ret		handle_fat32(char *filename, uint64_t size, void *ptr, enum e_endian endian);
-t_ex_ret		ft_nm(uint64_t size, void *ptr, char *filename);
+t_ex_ret     	handle_archive(char *filename, uint64_t size, void *ptr);
+t_ex_ret		ft_nm(uint64_t size, void *ptr, char *filename, char *archive_name);
 
 
 t_bool			value_sort_comp(t_symbol *symb1, t_symbol *symb2);

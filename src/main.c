@@ -3,14 +3,13 @@
 static t_ex_ret	process_all_files(int argc, char **argv, int first_file_index)
 {
 	t_ex_ret	ret;
-	t_bool		multi_display;
+	// t_bool		multi_display;
 
 	ret = SUCCESS;
-	multi_display = (first_file_index == (argc - 1)) ? FALSE : TRUE;
+	g_multi_display = (first_file_index == (argc - 1)) ? FALSE : TRUE;
 	while (first_file_index < argc)
 	{
-		if (process_single_file(argv[first_file_index], multi_display)
-			== FAILURE)
+		if (process_single_file(argv[first_file_index]) == FAILURE)
 			ret = FAILURE;
 		first_file_index++;
 	}
