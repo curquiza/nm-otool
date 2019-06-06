@@ -54,7 +54,7 @@ t_ex_ret	ft_nm(uint64_t size, void *ptr, char *filename, char *archive_name)
 	}
 	else if (ft_strncmp((char *)ptr, ARMAG, SARMAG) == 0)
 	{
-		ft_printf("ARCHIVE\n");
+		// ft_printf("ARCHIVE\n");
 		return (handle_archive(filename, size, ptr));
 	}
 	else

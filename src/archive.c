@@ -7,55 +7,53 @@ static uint32_t	ft_padding_ar_mac(char *ar_name)
 	if ((ft_strncmp(ar_name, AR_EFMT1, ft_strlen(AR_EFMT1))) == 0)
 	{
 		ar_name_size = ft_atoi(ar_name + ft_strlen(AR_EFMT1));
-		printf("ar name size: %d\n", ar_name_size);
+		// printf("ar name size: %d\n", ar_name_size);
 	}
 	else
 		ar_name_size = 0;
 	return (ar_name_size);
 }
 
-t_ex_ret	handle_archive(char *filename, uint64_t size, void *ptr)
+t_ex_ret	 handle_archive(char *filename, uint64_t size, void *ptr)
 {
-	struct ar_hdr	*header;
-	char			*long_name;
+	struct ar_hdr		*header;
 	uint32_t		symtab_size;
-	uint32_t		nb_items;
-	struct ranlib	*obj;
+	struct ranlib		*symtab;
+	t_bin_file			file;
+	uint32_t			obj_size;
 
-	(void)filename;
-	(void)size;
+	file.filename = filename;
+	file.size = size;
+	file.ptr = ptr;
 
 	header = (struct ar_hdr*)(ptr + SARMAG);
-	printf("sizeof ar_hdr: %lu\n", sizeof(struct ar_hdr));
-
-	write(1, "\n", 1);
-	write(1, header->ar_name, 16);
-	write(1, header->ar_date, 12);
-	write(1, "\n", 1);
-	write(1, header->ar_uid, 6);
-	write(1, "\n", 1);
-	write(1, header->ar_gid, 6);
-	write(1, "\n", 1);
-	write(1, header->ar_mode, 8);
-	write(1, "\n", 1);
-	write(1, header->ar_size, 10);
-	write(1, "\n", 1);
-	write(1, header->ar_fmag, 2);
-	write(1, "\n", 1);
-
-	long_name = (char*)(header + 1);
-	printf("longname: %s\n", long_name);
-
 	symtab_size = *(uint32_t*)((void*)(header + 1) + ft_padding_ar_mac(header->ar_name));
-	printf("size of symble table: %d\n", symtab_size);
+	// nsyms = symtab_size / sizeof(struct ranlib);
+	symtab = (struct ranlib*) ((void*)(header + 1) + ft_padding_ar_mac(header->ar_name) + sizeof(uint32_t));
 
-	nb_items = symtab_size / sizeof(struct ranlib);
-	printf("nb items: %d\n", nb_items);
+	// char	 *string_table;
+	uint32_t	string_table_size;
 
-	obj = (struct ranlib*) ((void*)(header + 1) + ft_padding_ar_mac(header->ar_name) + sizeof(uint32_t));
-	printf("ran_strx: %d\n", obj->ran_un.ran_strx);
-	printf("ran_off: %u\n", obj->ran_off);
-	printf("object name: %s\n", ptr + obj->ran_un.ran_strx);
+	string_table_size = *(uint32_t*)((void*)symtab + symtab_size);
+	// string_table = (void*)symtab + symtab_size + sizeof(uint32_t);
 
-	return (0);
+	struct ar_hdr		*object_header;
+	char				*object_name;
+
+	object_header = check_and_move(&file, (void*)symtab + symtab_size + sizeof(uint32_t) + string_table_size, sizeof(*object_header));
+
+	while (object_header)
+	{
+		object_name = (char *)(object_header + 1);
+		obj_size = ft_atoi(object_header->ar_size);
+		// ft_printf("object name: %s\n", object_name);
+		ft_nm(obj_size, (void *)object_name + ft_padding_ar_mac(object_header->ar_name), object_name, filename);
+		// object_header = check_and_move(&file, (void *)object_name + ft_strlen(object_name) + ft_padding_ar_mac(object_header->ar_name) + obj_size, sizeof(*object_header));
+		object_header = check_and_move(&file, (void *)object_header + sizeof(*object_header) + obj_size, sizeof(*object_header));
+
+
+		// /!\ checker que ya de la place pour le fichier .o aussi !
+	}
+
+	return (SUCCESS);
 }

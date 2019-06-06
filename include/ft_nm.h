@@ -57,9 +57,6 @@ typedef struct	s_bin_file
 	uint8_t					bss_index;
 }				t_bin_file;
 
-// Global avec :
-// - flags
-// - filename ?
 uint8_t			g_flags;
 t_bool			g_multi_display;
 
@@ -93,9 +90,11 @@ t_ex_ret		handle_64(uint64_t size, void *ptr, char *filename,
 t_ex_ret		init_32(t_bin_file *file);
 t_ex_ret		handle_32(uint64_t size, void *ptr, char *filename,
 					enum e_endian endian);
-t_ex_ret		handle_fat32(char *filename, uint64_t size, void *ptr, enum e_endian endian);
-t_ex_ret     	handle_archive(char *filename, uint64_t size, void *ptr);
-t_ex_ret		ft_nm(uint64_t size, void *ptr, char *filename, char *archive_name);
+t_ex_ret		handle_fat32(char *filename, uint64_t size, void *ptr,
+					enum e_endian endian);
+t_ex_ret		handle_archive(char *filename, uint64_t size, void *ptr);
+t_ex_ret		ft_nm(uint64_t size, void *ptr, char *filename,
+					char *archive_name);
 
 
 t_bool			value_sort_comp(t_symbol *symb1, t_symbol *symb2);
