@@ -52,3 +52,9 @@ do
 
     done
 done
+
+# NO CORRUPT
+# bash tests/test_on.sh  ../testnm-master/64 ../testnm-master/32 ../testnm-master/macho/32 ../testnm-master/macho/64 ../testnm-master/macho/64/dylib ../testnm-master/fat ../testnm-master/lib_stat ../testnm-master/fat_lib ../testnm-master/archive
+
+# CORRUPT
+# bash tests/test_on.sh ../testnm-master/corrupt ../testnm-master/corrupted_obj

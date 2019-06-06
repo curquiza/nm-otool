@@ -29,7 +29,7 @@ void		print_symbols_output(t_symbol *symbols, size_t sym_count,
 			else
 				ft_printf("%10c %.538s", symbols[i].type_char, symbols[i].name);
 			if (symbols[i].type_char == 'I' && ft_strcmp(symbols[i].name, BAD_STRING_INDEX) == 0)
-				ft_putstr(" (indirect for ?)");
+				ft_putstr(" (indirect for ?)"); // ATTENTION ORDI ECOLE
 			ft_putchar('\n');
 		}
 		else
