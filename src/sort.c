@@ -1,6 +1,5 @@
 #include "ft_nm.h"
 
-
 static t_ex_ret	run_merge_sort(t_symbol *tab, int start1, int end1, int end2,
 					t_bool (*comp)(t_symbol *symb1, t_symbol *symb2))
 {
@@ -103,5 +102,3 @@ t_ex_ret	sort_symbols(t_bin_file *file)
 		reverse_symb_tab(file->symbols, nsyms);
 	return (SUCCESS);
 }
-
-
