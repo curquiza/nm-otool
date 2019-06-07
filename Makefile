@@ -6,6 +6,7 @@ CC = gcc $(FLAG)
 SRC_DIR = src
 SRC = $(addprefix $(SRC_DIR)/, \
 		utils.c \
+		utils_ret.c \
 		utils_options.c \
 		utils_swap.c \
 		utils_check_size.c \

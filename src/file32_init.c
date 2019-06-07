@@ -4,9 +4,9 @@ static t_ex_ret		get_sections_indexes(t_bin_file *file,
 						struct segment_command *seg,
 						uint8_t current_sect_index)
 {
-	uint32_t			i;
-	struct section		*section;
-	uint32_t			seg_nsects;
+	uint32_t		i;
+	struct section	*section;
+	uint32_t		seg_nsects;
 
 	seg_nsects = swap_uint32_if(seg->nsects, file->endian);
 	i = 0;
@@ -38,7 +38,7 @@ static t_ex_ret		get_info_from_lc(t_bin_file *file, struct load_command *lc,
 	if (lc_cmd == LC_SYMTAB)
 	{
 		file->symtab_lc = (struct symtab_command *)check_and_move(file, lc,
-			sizeof(*lc)); //check size
+			sizeof(*lc));
 		if (!file->symtab_lc)
 			return (ft_ret_err2(file->filename, FILE_END_ERR));
 	}
@@ -73,10 +73,10 @@ static t_ex_ret		init_lc_and_ncmds(t_bin_file *file, uint32_t *header_ncmds,
 
 static t_ex_ret		get_file_info(t_bin_file *file)
 {
-	uint32_t					i;
-	struct load_command			*lc;
-	uint32_t					header_ncmds;
-	uint8_t						section_index;
+	uint32_t			i;
+	struct load_command	*lc;
+	uint32_t			header_ncmds;
+	uint8_t				section_index;
 
 	if (init_lc_and_ncmds(file, &header_ncmds, &lc) == FAILURE)
 		return (FAILURE);
@@ -84,8 +84,6 @@ static t_ex_ret		get_file_info(t_bin_file *file)
 	i = 0;
 	while (i < header_ncmds)
 	{
-		// if (swap_uint32_if(lc->cmdsize, file->endian) % 8 != 0)
-		// 	return (ft_ret_err2(file->filename, CMDSIZE_ERR));
 		if (get_info_from_lc(file, lc, &section_index) == FAILURE)
 			return (FAILURE);
 		i++;

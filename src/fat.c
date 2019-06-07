@@ -1,6 +1,6 @@
 #include "ft_nm.h"
 
-static t_ex_ret exec_same_arch(t_bin_file *file, struct fat_arch *arch)
+static t_ex_ret	exec_same_arch(t_bin_file *file, struct fat_arch *arch)
 {
 	uint32_t	size;
 	uint32_t	offset;
@@ -37,13 +37,12 @@ static t_ex_ret	if_same_arch_process(t_bin_file *file)
 	return (-1);
 }
 
-
 static t_ex_ret	exec_diff_arch(t_bin_file *file, struct fat_arch *arch)
 {
-	cpu_type_t			cpu_type;
-	cpu_subtype_t		cpu_subtype;
-	uint32_t	size;
-	uint32_t	offset;
+	cpu_type_t		cpu_type;
+	cpu_subtype_t	cpu_subtype;
+	uint32_t		size;
+	uint32_t		offset;
 
 	size = swap_uint32_if(arch->size, file->endian);
 	offset = swap_uint32_if(arch->offset, file->endian);
@@ -58,12 +57,11 @@ static t_ex_ret	exec_diff_arch(t_bin_file *file, struct fat_arch *arch)
 	return (SUCCESS);
 }
 
-static t_ex_ret not_same_arch_process(t_bin_file *file)
+static t_ex_ret	not_same_arch_process(t_bin_file *file)
 {
 	struct fat_header	*header;
 	uint32_t			arch_nb;
 	struct fat_arch		*arch;
-
 
 	if (!(header = (struct fat_header*)check_and_move(file, file->ptr,
 			sizeof(*header))))

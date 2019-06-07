@@ -15,7 +15,7 @@ t_ex_ret	activate_opt(char opt_letter)
 	return (SUCCESS);
 }
 
-t_bool	opt_is_activated(char opt_letter)
+t_bool		opt_is_activated(char opt_letter)
 {
 	char		*opt;
 	uint32_t	opt_mask;

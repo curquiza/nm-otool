@@ -3,7 +3,6 @@
 static t_ex_ret	process_all_files(int argc, char **argv, int first_file_index)
 {
 	t_ex_ret	ret;
-	// t_bool		multi_display;
 
 	ret = SUCCESS;
 	g_multi_display = (first_file_index == (argc - 1)) ? FALSE : TRUE;
@@ -16,7 +15,7 @@ static t_ex_ret	process_all_files(int argc, char **argv, int first_file_index)
 	return (ret);
 }
 
-static int	get_all_options(int argc, char **argv)
+static int		get_all_options(int argc, char **argv)
 {
 	int		i;
 
@@ -39,7 +38,7 @@ static int	get_all_options(int argc, char **argv)
 	return (i);
 }
 
-static t_ex_ret process_all_arguments(int argc, char **argv)
+static t_ex_ret	process_all_arguments(int argc, char **argv)
 {
 	int		first_file_index;
 
@@ -48,14 +47,13 @@ static t_ex_ret process_all_arguments(int argc, char **argv)
 	return (process_all_files(argc, argv, first_file_index));
 }
 
-int		main(int argc, char **argv)
+int				main(int argc, char **argv)
 {
 	g_flags = 0;
 	if (argc < 2)
 		return (ret_usage());
 	return (process_all_arguments(argc, argv));
 }
-
 
 // TODO
 // - a.out si 0 file trouvé

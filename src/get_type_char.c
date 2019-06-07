@@ -15,20 +15,15 @@ static char	get_type_char_for_nsect(uint8_t n_sect, t_bin_file *file)
 char		get_type_char(uint64_t value, uint8_t type, uint8_t n_sect,
 				t_bin_file *file)
 {
-	uint8_t mask;
-	unsigned char type_char;
+	uint8_t			mask;
+	unsigned char	type_char;
 
 	type_char = '?';
 	if (type & N_STAB)
 		return ('-');
-	// limited global scope ??
-	// if (type & N_PEXT)
-	//	return (' ');
 	mask = type & N_TYPE;
 	if (mask == N_ABS)
 		type_char = 'A';
-	// else if (mask == N_PBUD)
-	// 	type_char = 'P';
 	else if (mask == N_INDR)
 		type_char = 'I';
 	else if (mask == N_SECT)

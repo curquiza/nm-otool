@@ -59,7 +59,7 @@ typedef struct	s_bin_file
 	enum e_endian			endian;
 	void					*ptr;
 	uint64_t				size;
-	struct symtab_command	*symtab_lc; //generique ?
+	struct symtab_command	*symtab_lc;
 	t_symbol				*symbols;
 	uint8_t					text_index;
 	uint8_t					data_index;
@@ -104,7 +104,6 @@ t_ex_ret		handle_fat32(char *filename, uint64_t size, void *ptr,
 t_ex_ret		handle_archive(char *filename, uint64_t size, void *ptr);
 t_ex_ret		ft_nm(uint64_t size, void *ptr, char *filename,
 					char *archive_name);
-
 
 t_bool			value_sort_comp(t_symbol *symb1, t_symbol *symb2);
 t_bool			alpha_sort_comp(t_symbol *symb1, t_symbol *symb2);
