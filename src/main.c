@@ -55,3 +55,8 @@ int		main(int argc, char **argv)
 		return (ret_usage());
 	return (process_all_arguments(argc, argv));
 }
+
+
+// TODO
+// - a.out si 0 file trouvé
+// - fat 64
