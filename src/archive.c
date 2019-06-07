@@ -50,7 +50,8 @@ t_ex_ret	 handle_archive(char *filename, uint64_t size, void *ptr)
 	// header = (struct ar_hdr*)(ptr + SARMAG);
 	header = (struct ar_hdr*)check_and_move(&file, ptr + SARMAG, sizeof(*header));
 	if (!header)
-		return (ft_ret_err2(filename, FILE_END_ERR));
+		// return (ft_ret_err2(filename, FILE_END_ERR));
+		return (SUCCESS);
 	symtab_size = *(uint32_t*)((void*)(header + 1) + ft_padding_ar_mac(header->ar_name));
 	// symtab_size = *(uint32_t*)((void*)(header + 1) + ft_padding_ar_mac(header->ar_name));
 	if (check_and_move(&file, header + 1, sizeof(symtab_size)) == NULL)
