@@ -5,8 +5,8 @@ RED="\033[1;31m"
 YELLOW="\033[1;33m"
 DEF="\033[0m"
 
-# nm_bin="/Users/curquiza/Documents/nm-otool/ft_nm"
-nm_bin="/Users/curquizar/Documents/nm-otool/ft_nm"
+nm_bin="/Users/curquiza/Documents/nm-otool/ft_nm"
+# nm_bin="/Users/curquizar/Documents/nm-otool/ft_nm"
 
 printf "\n%.-78s $YELLOW%s   %s$DEF\n" "" "OUTPUT" "RETURN"
 
