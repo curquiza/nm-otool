@@ -37,6 +37,15 @@ enum			e_value
 	VALUE_64
 };
 
+typedef struct	s_sort
+{
+	uint32_t		start1;
+	uint32_t		end1;
+	uint32_t		end2;
+	uint32_t		cpt1;
+	uint32_t		cpt2;
+}				t_sort;
+
 typedef struct	s_symbol
 {
 	char		*name;
