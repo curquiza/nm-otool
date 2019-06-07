@@ -23,7 +23,6 @@ static t_ex_ret	get_symbols_output(t_bin_file *file)
 	struct nlist_64	*nlist;
 	uint32_t		nsyms;
 
-
 	nsyms = swap_uint32_if(file->symtab_lc->nsyms, file->endian);
 	nlist = (struct nlist_64 *)check_and_move(file, (void *)file->ptr
 		+ swap_uint32_if(file->symtab_lc->symoff, file->endian),
@@ -44,8 +43,8 @@ static t_ex_ret	get_symbols_output(t_bin_file *file)
 	return (SUCCESS);
 }
 
-t_ex_ret	handle_64(uint64_t size, void *ptr, char *filename,
-				enum e_endian endian)
+t_ex_ret		handle_64(uint64_t size, void *ptr, char *filename,
+					enum e_endian endian)
 {
 	t_bin_file	file;
 

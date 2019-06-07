@@ -5,8 +5,8 @@ RED="\033[1;31m"
 YELLOW="\033[1;33m"
 DEF="\033[0m"
 
-# nm_bin="/Users/curquiza/Documents/nm-otool/ft_nm"
-nm_bin="/Users/curquizar/Documents/nm-otool/ft_nm"
+nm_bin="/Users/curquiza/Documents/nm-otool/ft_nm"
+# nm_bin="/Users/curquizar/Documents/nm-otool/ft_nm"
 
 printf "\n%.-78s $YELLOW%s   %s$DEF\n" "" "OUTPUT" "RETURN"
 
@@ -52,3 +52,9 @@ do
 
     done
 done
+
+# NO CORRUPT
+# bash tests/test_on.sh  ../testnm-master/64 ../testnm-master/32 ../testnm-master/macho/32 ../testnm-master/macho/64 ../testnm-master/macho/64/dylib ../testnm-master/fat ../testnm-master/lib_stat ../testnm-master/fat_lib ../testnm-master/archive
+
+# CORRUPT
+# bash tests/test_on.sh ../testnm-master/corrupt ../testnm-master/corrupted_obj

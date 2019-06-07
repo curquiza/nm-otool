@@ -25,7 +25,7 @@ int			ft_conv_s(va_list arg, t_arg *current)
 		{
 			if (!(current->rslt = (char *)ft_strnew(current->preci_digit)))
 				ft_exit("ft_printf: Malloc error", 1);
-			ft_memmove(current->rslt, s, current->preci_digit);
+			ft_strncpy(current->rslt, s, current->preci_digit);
 		}
 		else
 			current->rslt = ft_strdup(s);

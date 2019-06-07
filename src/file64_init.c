@@ -38,7 +38,7 @@ static t_ex_ret		get_info_from_lc(t_bin_file *file, struct load_command *lc,
 	if (lc_cmd == LC_SYMTAB)
 	{
 		file->symtab_lc = (struct symtab_command *)check_and_move(file, lc,
-			sizeof(*lc)); //check size
+			sizeof(*lc));
 		if (!file->symtab_lc)
 			return (ft_ret_err2(file->filename, FILE_END_ERR));
 	}

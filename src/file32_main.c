@@ -14,7 +14,6 @@ static void		get_one_symbol(t_bin_file *file, struct nlist *nlist,
 	file->symbols[i].type_char = get_type_char(n_value, nlist[i].n_type,
 		nlist[i].n_sect, file);
 	file->symbols[i].value = n_value;
-
 }
 
 static t_ex_ret	get_symbols_output(t_bin_file *file)
@@ -23,7 +22,6 @@ static t_ex_ret	get_symbols_output(t_bin_file *file)
 	char			*string_table;
 	struct nlist	*nlist;
 	uint32_t		nsyms;
-
 
 	nsyms = swap_uint32_if(file->symtab_lc->nsyms, file->endian);
 	nlist = (struct nlist *)check_and_move(file, (void *)file->ptr
@@ -45,8 +43,8 @@ static t_ex_ret	get_symbols_output(t_bin_file *file)
 	return (SUCCESS);
 }
 
-t_ex_ret	handle_32(uint64_t size, void *ptr, char *filename,
-				enum e_endian endian)
+t_ex_ret		handle_32(uint64_t size, void *ptr, char *filename,
+					enum e_endian endian)
 {
 	t_bin_file	file;
 

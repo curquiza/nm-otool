@@ -11,7 +11,7 @@ static uint32_t	swap_uint32(uint32_t n)
 	return (swap);
 }
 
-uint32_t	swap_uint32_if(uint32_t n, enum e_endian endian)
+uint32_t		swap_uint32_if(uint32_t n, enum e_endian endian)
 {
 	if (endian == MAGIC)
 		return (n);
@@ -34,7 +34,7 @@ static uint64_t	swap_uint64(uint64_t n)
 	return (swap);
 }
 
-uint64_t	swap_uint64_if(uint64_t n, enum e_endian endian)
+uint64_t		swap_uint64_if(uint64_t n, enum e_endian endian)
 {
 	if (endian == MAGIC)
 		return (n);

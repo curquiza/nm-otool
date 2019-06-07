@@ -1,9 +1,18 @@
 #include "ft_nm.h"
 
-t_ex_ret	ft_nm(uint64_t size, void *ptr, char *filename)
+static void	display_name(char *filename, char *archive_name)
+{
+	if (!archive_name && g_multi_display == TRUE)
+		ft_printf("\n%s:\n", filename);
+	else if (archive_name)
+		ft_printf("\n%s(%s):\n", archive_name, filename);
+}
+
+t_ex_ret	ft_nm(uint64_t size, void *ptr, char *filename, char *archive_name)
 {
 	uint32_t	magic_number;
 
+	display_name(filename, archive_name);
 	magic_number = *(uint32_t *)ptr;
 	if (magic_number == MH_MAGIC)
 	{
@@ -42,6 +51,11 @@ t_ex_ret	ft_nm(uint64_t size, void *ptr, char *filename)
 	else if (magic_number == FAT_CIGAM_64)
 	{
 		ft_printf("FAT_CIGAM 64\n");
+	}
+	else if (ft_strncmp((char *)ptr, ARMAG, SARMAG) == 0)
+	{
+		// ft_printf("ARCHIVE\n");
+		return (handle_archive(filename, size, ptr));
 	}
 	else
 	{

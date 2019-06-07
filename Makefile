@@ -6,6 +6,7 @@ CC = gcc $(FLAG)
 SRC_DIR = src
 SRC = $(addprefix $(SRC_DIR)/, \
 		utils.c \
+		utils_ret.c \
 		utils_options.c \
 		utils_swap.c \
 		utils_check_size.c \
@@ -17,6 +18,7 @@ SRC = $(addprefix $(SRC_DIR)/, \
 		file32_init.c \
 		file32_main.c \
 		fat.c \
+		archive.c \
 		ft_nm.c \
 		get_type_char.c \
 		get_arch.c \
