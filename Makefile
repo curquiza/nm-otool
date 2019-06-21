@@ -7,8 +7,10 @@ LIBFT_H = $(LIBFT_DIR)/include
 ################################################################################
 
 all : $(LIBFT)
-	printf "\033[1;33m%s\033[0m\n" "FT_NM"
+	@printf "\033[1;33m%s\033[0m\n" "FT_NM"
 	@make -C nm
+	@printf "\033[1;33m%s\033[0m\n" "FT_OTOOL"
+	@make -C otool
 
 $(LIBFT) :
 	@make -C $(LIBFT_DIR)
@@ -19,9 +21,11 @@ run_test:
 
 clean :
 	@make -C nm clean
+	@make -C otool clean
 
 fclean : clean
 	@make -C nm fclean
+	@make -C otool fclean
 
 fclean_lib :
 	@make fclean -C $(LIBFT_DIR)
