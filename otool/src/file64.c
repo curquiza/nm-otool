@@ -2,17 +2,17 @@
 
 
 static t_ex_ret		get_text_info(t_bin_file *file,
-						struct segment_command *seg)
+						struct segment_command_64 *seg)
 {
-	uint32_t		i;
-	struct section	*section;
-	uint32_t		seg_nsects;
+	uint32_t			i;
+	struct section_64	*section;
+	uint32_t			seg_nsects;
 
 	seg_nsects = swap_uint32_if(seg->nsects, file->endian);
 	i = 0;
 	while (i < seg_nsects)
 	{
-		section = (struct section *)check_and_move(file,
+		section = (struct section_64 *)check_and_move(file,
 			(void *)seg + sizeof(*seg) + i * sizeof(*section),
 			sizeof(*section));
 		if (!section)
@@ -30,13 +30,13 @@ static t_ex_ret		get_text_info(t_bin_file *file,
 
 static t_ex_ret		get_info_from_lc(t_bin_file *file, struct load_command *lc)
 {
-	struct segment_command	*seg;
-	uint32_t				lc_cmd;
+	struct segment_command_64	*seg;
+	uint32_t					lc_cmd;
 
 	lc_cmd = swap_uint32_if(lc->cmd, file->endian);
-	if (lc_cmd == LC_SEGMENT)
+	if (lc_cmd == LC_SEGMENT_64)
 	{
-		seg = (struct segment_command *)check_and_move(file, lc, sizeof(*seg));
+		seg = (struct segment_command_64 *)check_and_move(file, lc, sizeof(*seg));
 		if (!seg)
 			return (ft_ret_err2(file->filename, FILE_END_ERR));
 		if (ft_strcmp(SEG_TEXT, seg->segname) == 0
@@ -50,9 +50,9 @@ static t_ex_ret		init_lc_and_header_info(t_bin_file *file,
 						uint32_t *header_ncmds,
 						struct load_command	**lc)
 {
-	struct mach_header	*header;
+	struct mach_header_64	*header;
 
-	header = (struct mach_header *)check_and_move(file, file->ptr,
+	header = (struct mach_header_64 *)check_and_move(file, file->ptr,
 		sizeof(*header));
 	if (!header)
 		return (ft_ret_err2(file->filename, NOT_OBJ_ERR));
@@ -100,6 +100,6 @@ t_ex_ret		handle_64(uint64_t size, void *ptr, char *filename,
 	file.endian = endian;
 	if (init_64(&file) == FAILURE)
 		return (FAILURE);
-	//output
+	print_output(&file, VALUE_64);
 	return (SUCCESS);
 }

@@ -28,11 +28,11 @@ enum			e_endian
 	MAGIC
 };
 
-// enum			e_value
-// {
-// 	VALUE_32,
-// 	VALUE_64
-// };
+enum			e_value
+{
+	VALUE_32,
+	VALUE_64
+};
 
 typedef struct	s_symbol
 {
@@ -74,6 +74,8 @@ t_ex_ret		handle_64(uint64_t size, void *ptr, char *filename,
 					enum e_endian endian);
 t_ex_ret		ft_otool(uint64_t size, void *ptr, char *filename,
 					char *archive_name);
+
+void			print_output(t_bin_file *file, enum e_value value_type);
 
 
 #endif

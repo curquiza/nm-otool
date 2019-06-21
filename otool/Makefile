@@ -2,12 +2,13 @@ NAME = ft_otool
 
 FLAG = -Wall -Wextra -Werror
 CC = gcc $(FLAG)
-
 SRC_DIR = src
+
 SRC = $(addprefix $(SRC_DIR)/, \
 		file32.c \
 		file64.c \
 		ft_otool.c \
+		print_output.c \
 		utils_swap.c \
 		utils_check_size.c \
 		utils_ret.c \

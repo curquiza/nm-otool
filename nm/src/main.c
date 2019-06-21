@@ -57,5 +57,4 @@ int				main(int argc, char **argv)
 
 // TODO
 // - a.out si 0 file trouvé
-// - makefile
 // - otool
