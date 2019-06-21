@@ -17,7 +17,8 @@ SRC = $(addprefix $(SRC_DIR)/, \
 		file64_main.c \
 		file32_init.c \
 		file32_main.c \
-		fat.c \
+		fat32.c \
+		fat64.c \
 		archive.c \
 		ft_nm.c \
 		get_type_char.c \
