@@ -101,6 +101,8 @@ t_ex_ret		handle_32(uint64_t size, void *ptr, char *filename,
 					enum e_endian endian);
 t_ex_ret		handle_fat32(char *filename, uint64_t size, void *ptr,
 					enum e_endian endian);
+t_ex_ret		handle_fat64(char *filename, uint64_t size, void *ptr,
+					enum e_endian endian);
 t_ex_ret		handle_archive(char *filename, uint64_t size, void *ptr);
 t_ex_ret		ft_nm(uint64_t size, void *ptr, char *filename,
 					char *archive_name);

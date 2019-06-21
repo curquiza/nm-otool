@@ -41,7 +41,8 @@ t_ex_ret	ft_nm(uint64_t size, void *ptr, char *filename, char *archive_name)
 	}
 	else if (magic_number == FAT_MAGIC_64)
 	{
-		ft_printf("FAT_MAGIC 64\n");
+		return (handle_fat64(filename, size, ptr, MAGIC));
+		// ft_printf("FAT_MAGIC 64\n");
 	}
 	else if (magic_number == FAT_CIGAM)
 	{
@@ -50,7 +51,8 @@ t_ex_ret	ft_nm(uint64_t size, void *ptr, char *filename, char *archive_name)
 	}
 	else if (magic_number == FAT_CIGAM_64)
 	{
-		ft_printf("FAT_CIGAM 64\n");
+		// ft_printf("FAT_CIGAM 64\n");
+		return (handle_fat64(filename, size, ptr, CIGAM));
 	}
 	else if (ft_strncmp((char *)ptr, ARMAG, SARMAG) == 0)
 	{
