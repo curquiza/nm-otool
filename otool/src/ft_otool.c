@@ -1,14 +1,14 @@
-#include "ft_nm.h"
+#include "ft_otool.h"
 
 static void	display_name(char *filename, char *archive_name)
 {
 	if (!archive_name && g_multi_display == TRUE)
-		ft_printf("\n%s:\n", filename);
+		ft_printf("%s:\n", filename);
 	else if (archive_name)
-		ft_printf("\n%s(%s):\n", archive_name, filename);
+		ft_printf("%s(%s):\n", archive_name, filename);
 }
 
-t_ex_ret	ft_nm(uint64_t size, void *ptr, char *filename, char *archive_name)
+t_ex_ret	ft_otool(uint64_t size, void *ptr, char *filename, char *archive_name)
 {
 	uint32_t	magic_number;
 
