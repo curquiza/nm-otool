@@ -52,7 +52,6 @@ typedef struct	s_bin_file
 	cpu_type_t		cpu_type;
 }				t_bin_file;
 
-// uint8_t			g_flags;
 t_bool			g_multi_display;
 t_bool			g_title_display_inhib;
 
@@ -82,6 +81,5 @@ t_ex_ret		ft_otool(uint64_t size, void *ptr, char *filename,
 					char *archive_name);
 
 t_ex_ret		print_output(t_bin_file *file, enum e_value value_type);
-
 
 #endif
