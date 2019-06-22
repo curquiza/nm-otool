@@ -7,7 +7,6 @@
 # include <sys/stat.h>
 # include <sys/mman.h>
 # include <mach-o/loader.h>
-// # include <mach-o/nlist.h>
 # include <mach-o/fat.h>
 # include <errno.h>
 # include <ar.h>
@@ -55,7 +54,7 @@ typedef struct	s_bin_file
 
 // uint8_t			g_flags;
 t_bool			g_multi_display;
-t_bool			g_fat_title_display;
+t_bool			g_title_display_inhib;
 
 /*
 ** Function Prototypes

@@ -56,5 +56,5 @@ int				main(int argc, char **argv)
 }
 
 // TODO
-// - a.out si 0 file trouvé
-// - otool
+// - a.out si 0 file trouvé -> je vais pas le faire pour afficher l'usage
+// - ajouter des tests

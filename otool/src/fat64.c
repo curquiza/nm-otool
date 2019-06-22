@@ -51,7 +51,7 @@ static t_ex_ret	exec_diff_arch(t_bin_file *file, struct fat_arch_64 *arch)
 	cpu_subtype = swap_uint32_if(arch->cpusubtype, file->endian);
 	ft_printf("%s (architecture %s):\n",
 		file->filename, get_archi_name(cpu_type, cpu_subtype));
-	g_fat_title_display = TRUE;
+	g_title_display_inhib = TRUE;
 	if (!check_and_move(file, file->ptr + offset, size))
 		return (ft_ret_err2(file->filename, FILE_END_ERR));
 	if (ft_otool(size, file->ptr + offset, file->filename, NULL) == FAILURE)

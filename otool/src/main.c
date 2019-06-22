@@ -34,7 +34,7 @@ static t_ex_ret	process_single_file(char *filename)
 int			main(int argc, char **argv)
 {
 	g_multi_display = FALSE;
-	g_fat_title_display = FALSE;
+	g_title_display_inhib = FALSE;
 	if (argc < 2)
 		return (ret_usage());
 	return (process_single_file(argv[1]));
@@ -42,4 +42,4 @@ int			main(int argc, char **argv)
 
 // TODO :
 // - multi display
-// - pour chaque fichier, reset g_fat_title_display à FALSE
+// - pour chaque fichier, reset g_title_display_inhib à FALSE

@@ -21,6 +21,8 @@ static t_ex_ret	exec_all_objetcs(t_bin_file *file, struct ranlib *symtab,
 	obj_header = check_and_move(file, (void*)symtab
 		+ symtab_size + sizeof(uint32_t)
 		+ string_table_size, sizeof(*obj_header));
+	g_title_display_inhib = TRUE;
+	ft_printf("Archive : %s\n", file->filename);
 	while (obj_header)
 	{
 		if (check_and_move(file, obj_header + 1, sizeof(*obj_name)) == NULL)
@@ -29,7 +31,6 @@ static t_ex_ret	exec_all_objetcs(t_bin_file *file, struct ranlib *symtab,
 		obj_size = ft_atoi(obj_header->ar_size);
 		if (check_and_move(file, (void *)obj_name, obj_size) == NULL)
 			return (ft_ret_err2(file->filename, FILE_END_ERR));
-		ft_printf("Archive : %s\n", file->filename);
 		if (ft_otool(obj_size, (void *)obj_name
 				+ ft_padding_ar_mac(obj_header->ar_name),
 				obj_name, file->filename) == FAILURE)

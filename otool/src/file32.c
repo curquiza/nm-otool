@@ -41,8 +41,9 @@ static t_ex_ret		get_info_from_lc(t_bin_file *file, struct load_command *lc)
 		seg = (struct segment_command *)check_and_move(file, lc, sizeof(*seg));
 		if (!seg)
 			return (ft_ret_err2(file->filename, FILE_END_ERR));
-		if (ft_strcmp(SEG_TEXT, seg->segname) == 0
-			&& get_text_info(file, seg) == FAILURE)
+		// if (ft_strcmp(SEG_TEXT, seg->segname) == 0
+		// 	&& get_text_info(file, seg) == FAILURE)
+		if (get_text_info(file, seg) == FAILURE)
 			return (FAILURE);
 	}
 	return (SUCCESS);
