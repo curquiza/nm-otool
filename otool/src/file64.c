@@ -100,6 +100,5 @@ t_ex_ret		handle_64(uint64_t size, void *ptr, char *filename,
 	file.endian = endian;
 	if (init_64(&file) == FAILURE)
 		return (FAILURE);
-	print_output(&file, VALUE_64);
-	return (SUCCESS);
+	return (print_output(&file, VALUE_64));
 }

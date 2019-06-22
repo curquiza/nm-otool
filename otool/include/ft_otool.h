@@ -11,7 +11,7 @@
 # include <mach-o/fat.h>
 # include <errno.h>
 # include <ar.h>
-// # include <mach-o/ranlib.h>
+# include <mach-o/ranlib.h>
 
 # define NOT_OBJ_ERR	"The file is not an object file"
 # define NO_FILE_ERR	"No such file or directory"
@@ -53,9 +53,9 @@ typedef struct	s_bin_file
 	cpu_type_t		cpu_type;
 }				t_bin_file;
 
-uint8_t			g_flags;
+// uint8_t			g_flags;
 t_bool			g_multi_display;
-
+t_bool			g_fat_title_display;
 
 /*
 ** Function Prototypes
@@ -63,8 +63,10 @@ t_bool			g_multi_display;
 
 uint32_t		swap_uint32_if(uint32_t n, enum e_endian endian);
 uint64_t		swap_uint64_if(uint64_t n, enum e_endian endian);
+t_bool			is_archi_x86_64(cpu_type_t cpu_type);
 t_ex_ret		ret_usage(void);
 t_ex_ret		ret_malloc_err(void);
+char			*get_archi_name(cpu_type_t cpu_type, cpu_subtype_t cpu_subtype);
 void			*check_and_move(t_bin_file *file, void *dest,
 					uint64_t needed_size);
 
@@ -72,10 +74,15 @@ t_ex_ret		handle_32(uint64_t size, void *ptr, char *filename,
 					enum e_endian endian);
 t_ex_ret		handle_64(uint64_t size, void *ptr, char *filename,
 					enum e_endian endian);
+t_ex_ret		handle_fat32(char *filename, uint64_t size, void *ptr,
+					enum e_endian endian);
+t_ex_ret		handle_fat64(char *filename, uint64_t size, void *ptr,
+					enum e_endian endian);
+t_ex_ret		handle_archive(char *filename, uint64_t size, void *ptr);
 t_ex_ret		ft_otool(uint64_t size, void *ptr, char *filename,
 					char *archive_name);
 
-void			print_output(t_bin_file *file, enum e_value value_type);
+t_ex_ret		print_output(t_bin_file *file, enum e_value value_type);
 
 
 #endif

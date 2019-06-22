@@ -102,6 +102,5 @@ t_ex_ret		handle_32(uint64_t size, void *ptr, char *filename,
 	file.endian = endian;
 	if (init_32(&file) == FAILURE)
 		return (FAILURE);
-	print_output(&file, VALUE_32);
-	return (SUCCESS);
+	return (print_output(&file, VALUE_32));
 }

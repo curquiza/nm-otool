@@ -7,11 +7,16 @@ SRC_DIR = src
 SRC = $(addprefix $(SRC_DIR)/, \
 		file32.c \
 		file64.c \
+		fat32.c \
+		fat64.c \
+		archive.c \
 		ft_otool.c \
 		print_output.c \
+		get_arch.c \
 		utils_swap.c \
 		utils_check_size.c \
 		utils_ret.c \
+		utils.c \
 		main.c)
 
 OBJ_DIR = objs
