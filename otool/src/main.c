@@ -7,6 +7,7 @@ static t_ex_ret	process_single_file(char *filename)
 	struct		stat buf;
 	t_ex_ret	ret;
 
+	g_title_display_inhib = FALSE;
 	ptr = NULL;
 	if ((fd = open(filename, O_RDONLY)) < 0)
 	{
@@ -31,13 +32,26 @@ static t_ex_ret	process_single_file(char *filename)
 	return (ret);
 }
 
+static t_ex_ret	process_all_files(int argc, char **argv)
+{
+	int	i;
+
+	g_multi_display = argc > 2 ? TRUE : FALSE;
+	i = 1;
+	while (i < argc)
+	{
+		if (process_single_file(argv[i]) == FAILURE)
+			return (FAILURE);
+		i++;
+	}
+	return (SUCCESS);
+}
+
 int			main(int argc, char **argv)
 {
-	g_multi_display = FALSE;
-	g_title_display_inhib = FALSE;
 	if (argc < 2)
 		return (ret_usage());
-	return (process_single_file(argv[1]));
+	return (process_all_files(argc, argv));
 }
 
 // TODO :

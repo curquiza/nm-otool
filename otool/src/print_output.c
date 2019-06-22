@@ -43,7 +43,7 @@ t_ex_ret		print_output(t_bin_file *file, enum e_value value_type)
 {
 	size_t	i;
 
-	if (g_title_display_inhib == FALSE)
+	if (g_title_display_inhib == FALSE && g_multi_display == FALSE)
 		ft_printf("%s:\n", file->filename);
 	ft_printf("%s\n", TITLE);
 	i = 0;
