@@ -14,7 +14,7 @@ static void	print_compacted(t_bin_file *file, size_t i)
 		offset = (void *)file->ptr + file->text_offset + i + cpt;
 		if (offset >= (void *)file->ptr + file->text_offset + file->text_size)
 			return ;
-		ft_printf("%-9.8x", *(uint32_t *)offset); // check size
+		ft_printf("%-9.8x", swap_uint32_if(*(uint32_t *)offset, file->endian)); // check size
 		cpt += 4;
 	}
 }
@@ -33,7 +33,8 @@ static void	print_spaced(t_bin_file *file, size_t i)
 		offset = (void *)file->ptr + file->text_offset + i + cpt;
 		if (offset >= (void *)file->ptr + file->text_offset + file->text_size)
 			return ;
-		ft_printf("%-3.2hhx", *(uint8_t *)offset); // check size
+		ft_printf("%-3.2hhx", (uint8_t)swap_uint32_if(*(uint32_t *)offset,
+			file->endian)); // check size
 		cpt++;
 	}
 }
