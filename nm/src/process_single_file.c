@@ -1,5 +1,14 @@
 #include "ft_nm.h"
 
+static t_ex_ret	manage_open_error(char *filename)
+{
+	if (errno == EACCES)
+		return (ft_ret_err2(filename, PERM_ERR));
+	if (errno == ENOENT)
+		return (ft_ret_err2(filename, NO_FILE_ERR));
+	return (ft_ret_err2(filename, "Open error"));
+}
+
 t_ex_ret	process_single_file(char *filename)
 {
 	int			fd;
@@ -9,13 +18,7 @@ t_ex_ret	process_single_file(char *filename)
 
 	ptr = NULL;
 	if ((fd = open(filename, O_RDONLY)) < 0)
-	{
-		if (errno == EACCES)
-			return (ft_ret_err2(filename, PERM_ERR));
-		if (errno == ENOENT)
-			return (ft_ret_err2(filename, NO_FILE_ERR));
-		return (ft_ret_err2(filename, "Open error"));
-	}
+		return (manage_open_error(filename));
 	if ((fstat(fd, &buf)) < 0)
 		return (ft_ret_err2(filename, "Fstat error"));
 	if (S_ISDIR(buf.st_mode))

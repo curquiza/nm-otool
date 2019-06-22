@@ -1,22 +1,25 @@
 #include "ft_otool.h"
 
+static t_ex_ret	manage_open_error(char *filename)
+{
+	if (errno == EACCES)
+		return (ft_ret_err2(filename, PERM_ERR));
+	if (errno == ENOENT)
+		return (ft_ret_err2(filename, NO_FILE_ERR));
+	return (ft_ret_err2(filename, "Open error"));
+}
+
 static t_ex_ret	process_single_file(char *filename)
 {
 	int			fd;
 	void		*ptr;
-	struct		stat buf;
+	struct stat	buf;
 	t_ex_ret	ret;
 
 	g_title_display_inhib = FALSE;
 	ptr = NULL;
 	if ((fd = open(filename, O_RDONLY)) < 0)
-	{
-		if (errno == EACCES)
-			return (ft_ret_err2(filename, PERM_ERR));
-		if (errno == ENOENT)
-			return (ft_ret_err2(filename, NO_FILE_ERR));
-		return (ft_ret_err2(filename, "Open error"));
-	}
+		return (manage_open_error(filename));
 	if ((fstat(fd, &buf)) < 0)
 		return (ft_ret_err2(filename, "Fstat error"));
 	if (S_ISDIR(buf.st_mode))
@@ -34,7 +37,7 @@ static t_ex_ret	process_single_file(char *filename)
 
 static t_ex_ret	process_all_files(int argc, char **argv)
 {
-	int	i;
+	int		i;
 
 	g_multi_display = argc > 2 ? TRUE : FALSE;
 	i = 1;
@@ -47,13 +50,9 @@ static t_ex_ret	process_all_files(int argc, char **argv)
 	return (SUCCESS);
 }
 
-int			main(int argc, char **argv)
+int				main(int argc, char **argv)
 {
 	if (argc < 2)
 		return (ret_usage());
 	return (process_all_files(argc, argv));
 }
-
-// TODO :
-// - multi display
-// - pour chaque fichier, reset g_title_display_inhib à FALSE

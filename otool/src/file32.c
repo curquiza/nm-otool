@@ -1,8 +1,6 @@
 #include "ft_otool.h"
 
-
-static t_ex_ret		get_text_info(t_bin_file *file,
-						struct segment_command *seg)
+static t_ex_ret		get_text_info(t_bin_file *file, struct segment_command *seg)
 {
 	uint32_t		i;
 	struct section	*section;
@@ -41,8 +39,6 @@ static t_ex_ret		get_info_from_lc(t_bin_file *file, struct load_command *lc)
 		seg = (struct segment_command *)check_and_move(file, lc, sizeof(*seg));
 		if (!seg)
 			return (ft_ret_err2(file->filename, FILE_END_ERR));
-		// if (ft_strcmp(SEG_TEXT, seg->segname) == 0
-		// 	&& get_text_info(file, seg) == FAILURE)
 		if (get_text_info(file, seg) == FAILURE)
 			return (FAILURE);
 	}
@@ -91,8 +87,8 @@ static t_ex_ret		init_32(t_bin_file *file)
 	return (SUCCESS);
 }
 
-t_ex_ret		handle_32(uint64_t size, void *ptr, char *filename,
-					enum e_endian endian)
+t_ex_ret			handle_32(uint64_t size, void *ptr, char *filename,
+						enum e_endian endian)
 {
 	t_bin_file	file;
 
