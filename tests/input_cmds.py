@@ -6,7 +6,7 @@ INPUT_CMDS = [
     { 'cmd': 'nm/ft_nm tests/input/64_exe_medium',                   'error': False,  'output': '64_exe_medium.output' },
     { 'cmd': 'nm/ft_nm tests/input/64_lib_dynamic_hard',             'error': False,  'output': '64_lib_dynamic_hard.output' },
     { 'cmd': 'nm/ft_nm tests/input/64_lib_dynamic_medium',           'error': False,  'output': '64_lib_dynamic_medium.output' },
-    { 'cmd': 'nm/ft_nm tests/input/MachO-OSX-ppc-and-i386-bash',     'error': False,  'output': 'MachO-OSX-ppc-and-i386-bash.output'},
+    # { 'cmd': 'nm/ft_nm tests/input/MachO-OSX-ppc-and-i386-bash',     'error': False,  'output': 'MachO-OSX-ppc-and-i386-bash.output'},
     { 'cmd': 'nm/ft_nm tests/input/MachO-OSX-x64-ls',                'error': False,  'output': 'MachO-OSX-x64-ls.output' },
     { 'cmd': 'nm/ft_nm tests/input/MachO-OSX-x86-ls',                'error': False,  'output': 'MachO-OSX-x86-ls.output' },
     { 'cmd': 'nm/ft_nm tests/input/MachO-iOS-arm1176JZFS-bash',      'error': False,  'output': 'MachO-iOS-arm1176JZFS-bash.output' },
