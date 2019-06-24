@@ -61,7 +61,7 @@ t_ex_ret	ft_otool(uint64_t size, void *ptr, char *filename, char *archive_name)
 	}
 	else
 	{
-		ft_dprintf(2, "Unknown magic number : %x\n", magic_number);
+		ft_dprintf(2, "Error: Unknown magic number : %x\n", magic_number);
 	}
 	return (FAILURE);
 }
