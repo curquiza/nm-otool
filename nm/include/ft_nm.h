@@ -20,8 +20,7 @@
 # define IS_DIR_ERR		"Is a directory"
 # define NO_FILE_ERR	"No such file or directory"
 # define PERM_ERR		"Permission denied"
-# define CMDSIZE_ERR	"Malformed object (cmdsize not a multiple of 8)"
-# define FILE_END_ERR	"Malformed object (extends past the end of the file)"
+# define MALF_OBJ_ERR	"Malformed object"
 
 # define BAD_STRING_INDEX	"bad string index"
 

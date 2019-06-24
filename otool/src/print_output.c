@@ -10,7 +10,7 @@ static t_ex_ret	print_compacted(t_bin_file *file, size_t i)
 	{
 		offset = (void *)file->ptr + file->text_offset + i + cpt;
 		if (check_and_move(file, offset, sizeof(uint32_t)) == NULL)
-			return (ft_ret_err2(file->filename, FILE_END_ERR));
+			return (ft_ret_err2(file->filename, MALF_OBJ_ERR));
 		if (offset >= (void *)file->ptr + file->text_offset + file->text_size)
 			return (SUCCESS);
 		ft_printf("%-9.8x", swap_uint32_if(*(uint32_t *)offset, file->endian));
@@ -29,7 +29,7 @@ static t_ex_ret	print_spaced(t_bin_file *file, size_t i)
 	{
 		offset = (void *)file->ptr + file->text_offset + i + cpt;
 		if (check_and_move(file, offset, sizeof(uint8_t)) == NULL)
-			return (ft_ret_err2(file->filename, FILE_END_ERR));
+			return (ft_ret_err2(file->filename, MALF_OBJ_ERR));
 		if (offset >= (void *)file->ptr + file->text_offset + file->text_size)
 			return (SUCCESS);
 		ft_printf("%-3.2hhx", (uint8_t)swap_uint32_if(*(uint32_t *)offset,
