@@ -92,7 +92,7 @@ static t_ex_ret	check_malformed_obj(t_bin_file *file)
 {
 	void	*offset;
 
-	offset = (void *)file->ptr + file->text_offset + (file->text_size - 1) + 15;
+	offset = (void *)file->ptr + file->text_offset + (file->text_size - 1);
 	if (check_and_move(file, offset, sizeof(uint8_t)) == NULL)
 		return (ft_ret_err2(file->filename, MALF_OBJ_ERR));
 	return (SUCCESS);
