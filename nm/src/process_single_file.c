@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   process_single_file.c                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: curquiza <curquiza@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/06/26 13:28:08 by curquiza          #+#    #+#             */
+/*   Updated: 2019/06/26 13:28:09 by curquiza         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_nm.h"
 
 static t_ex_ret	manage_open_error(char *filename)
@@ -9,7 +21,7 @@ static t_ex_ret	manage_open_error(char *filename)
 	return (ft_ret_err2(filename, "Open error"));
 }
 
-t_ex_ret	process_single_file(char *filename)
+t_ex_ret		process_single_file(char *filename)
 {
 	int			fd;
 	void		*ptr;

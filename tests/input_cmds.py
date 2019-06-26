@@ -32,3 +32,6 @@ INPUT_CMDS = [
     { 'cmd': 'nm/ft_nm -jgn tests/input/basic_64',                   'error': False, 'output': 'multi_opt_3.output' },
 ]
 
+
+# test multi fichier
+# tests options mixees
