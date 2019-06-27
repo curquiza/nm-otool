@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   archive.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: curquiza <curquiza@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/06/25 13:23:49 by curquiza          #+#    #+#             */
+/*   Updated: 2019/06/25 13:23:51 by curquiza         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_otool.h"
 
 static uint32_t	ft_padding_ar_mac(char *ar_name)
@@ -26,11 +38,11 @@ static t_ex_ret	exec_all_objetcs(t_bin_file *file, struct ranlib *symtab,
 	while (obj_header)
 	{
 		if (check_and_move(file, obj_header + 1, sizeof(*obj_name)) == NULL)
-			return (ft_ret_err2(file->filename, FILE_END_ERR));
+			return (ft_ret_err2(file->filename, MALF_OBJ_ERR));
 		obj_name = (char *)(obj_header + 1);
 		obj_size = ft_atoi(obj_header->ar_size);
 		if (check_and_move(file, (void *)obj_name, obj_size) == NULL)
-			return (ft_ret_err2(file->filename, FILE_END_ERR));
+			return (ft_ret_err2(file->filename, MALF_OBJ_ERR));
 		if (ft_otool(obj_size, (void *)obj_name
 				+ ft_padding_ar_mac(obj_header->ar_name),
 				obj_name, file->filename) == FAILURE)
@@ -58,14 +70,14 @@ t_ex_ret		handle_archive(char *filename, uint64_t size, void *ptr)
 	symtab_size = *(uint32_t*)((void*)(header + 1)
 		+ ft_padding_ar_mac(header->ar_name));
 	if (check_and_move(&file, header + 1, sizeof(symtab_size)) == NULL)
-		return (ft_ret_err2(filename, FILE_END_ERR));
+		return (ft_ret_err2(filename, MALF_OBJ_ERR));
 	symtab = (struct ranlib*)check_and_move(&file, (void*)(header + 1)
 		+ ft_padding_ar_mac(header->ar_name)
 		+ sizeof(uint32_t), sizeof(*symtab));
 	if (symtab == NULL
 		|| check_and_move(&file, (void*)symtab + symtab_size,
 			sizeof(string_table_size)) == NULL)
-		return (ft_ret_err2(file.filename, FILE_END_ERR));
+		return (ft_ret_err2(file.filename, MALF_OBJ_ERR));
 	string_table_size = *(uint32_t*)((void*)symtab + symtab_size);
 	return (exec_all_objetcs(&file, symtab, symtab_size, string_table_size));
 }

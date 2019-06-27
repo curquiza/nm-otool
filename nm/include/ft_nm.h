@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_nm.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: curquiza <curquiza@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/06/26 13:29:35 by curquiza          #+#    #+#             */
+/*   Updated: 2019/06/26 13:29:39 by curquiza         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef FT_NM_H
 # define FT_NM_H
 
@@ -20,8 +32,7 @@
 # define IS_DIR_ERR		"Is a directory"
 # define NO_FILE_ERR	"No such file or directory"
 # define PERM_ERR		"Permission denied"
-# define CMDSIZE_ERR	"Malformed object (cmdsize not a multiple of 8)"
-# define FILE_END_ERR	"Malformed object (extends past the end of the file)"
+# define MALF_OBJ_ERR	"Malformed object"
 
 # define BAD_STRING_INDEX	"bad string index"
 

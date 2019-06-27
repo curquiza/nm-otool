@@ -1,8 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   file32.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: curquiza <curquiza@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/06/25 13:24:01 by curquiza          #+#    #+#             */
+/*   Updated: 2019/06/25 13:24:03 by curquiza         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_otool.h"
 
-
-static t_ex_ret		get_text_info(t_bin_file *file,
-						struct segment_command *seg)
+static t_ex_ret		get_text_info(t_bin_file *file, struct segment_command *seg)
 {
 	uint32_t		i;
 	struct section	*section;
@@ -16,7 +26,7 @@ static t_ex_ret		get_text_info(t_bin_file *file,
 			(void *)seg + sizeof(*seg) + i * sizeof(*section),
 			sizeof(*section));
 		if (!section)
-			return (ft_ret_err2(file->filename, FILE_END_ERR));
+			return (ft_ret_err2(file->filename, MALF_OBJ_ERR));
 		if (ft_strcmp(section->sectname, SECT_TEXT) == 0)
 		{
 			file->text_offset = swap_uint32_if(section->offset, file->endian);
@@ -40,9 +50,7 @@ static t_ex_ret		get_info_from_lc(t_bin_file *file, struct load_command *lc)
 	{
 		seg = (struct segment_command *)check_and_move(file, lc, sizeof(*seg));
 		if (!seg)
-			return (ft_ret_err2(file->filename, FILE_END_ERR));
-		// if (ft_strcmp(SEG_TEXT, seg->segname) == 0
-		// 	&& get_text_info(file, seg) == FAILURE)
+			return (ft_ret_err2(file->filename, MALF_OBJ_ERR));
 		if (get_text_info(file, seg) == FAILURE)
 			return (FAILURE);
 	}
@@ -62,7 +70,7 @@ static t_ex_ret		init_lc_and_header_info(t_bin_file *file,
 	*lc = (struct load_command *)check_and_move(file,
 		file->ptr + sizeof(*header), sizeof(**lc));
 	if (!*lc)
-		return (ft_ret_err2(file->filename, FILE_END_ERR));
+		return (ft_ret_err2(file->filename, MALF_OBJ_ERR));
 	*header_ncmds = swap_uint32_if(header->ncmds, file->endian);
 	file->cpu_type = swap_uint32_if(header->cputype, file->endian);
 	return (SUCCESS);
@@ -86,13 +94,13 @@ static t_ex_ret		init_32(t_bin_file *file)
 			(void *)lc + swap_uint32_if(lc->cmdsize, file->endian),
 			sizeof(*lc));
 		if (i < header_ncmds && !lc)
-			return (ft_ret_err2(file->filename, FILE_END_ERR));
+			return (ft_ret_err2(file->filename, MALF_OBJ_ERR));
 	}
 	return (SUCCESS);
 }
 
-t_ex_ret		handle_32(uint64_t size, void *ptr, char *filename,
-					enum e_endian endian)
+t_ex_ret			handle_32(uint64_t size, void *ptr, char *filename,
+						enum e_endian endian)
 {
 	t_bin_file	file;
 

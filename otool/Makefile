@@ -15,8 +15,7 @@ SRC = $(addprefix $(SRC_DIR)/, \
 		get_arch.c \
 		utils_swap.c \
 		utils_check_size.c \
-		utils_ret.c \
-		utils.c \
+		utils_misc.c \
 		main.c)
 
 OBJ_DIR = objs

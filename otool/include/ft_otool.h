@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_otool.h                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: curquiza <curquiza@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/06/25 13:25:44 by curquiza          #+#    #+#             */
+/*   Updated: 2019/06/25 13:25:45 by curquiza         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef FT_OTOOL_H
 # define FT_OTOOL_H
 
@@ -16,8 +28,7 @@
 # define NO_FILE_ERR	"No such file or directory"
 # define PERM_ERR		"Permission denied"
 # define IS_DIR_ERR		"Is a directory"
-# define CMDSIZE_ERR	"Malformed object (cmdsize not a multiple of 8)"
-# define FILE_END_ERR	"Malformed object (extends past the end of the file)"
+# define MALF_OBJ_ERR	"Malformed object"
 
 # define TITLE			"Contents of (__TEXT,__text) section"
 
@@ -52,7 +63,6 @@ typedef struct	s_bin_file
 	cpu_type_t		cpu_type;
 }				t_bin_file;
 
-// uint8_t			g_flags;
 t_bool			g_multi_display;
 t_bool			g_title_display_inhib;
 
@@ -82,6 +92,5 @@ t_ex_ret		ft_otool(uint64_t size, void *ptr, char *filename,
 					char *archive_name);
 
 t_ex_ret		print_output(t_bin_file *file, enum e_value value_type);
-
 
 #endif

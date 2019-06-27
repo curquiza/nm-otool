@@ -1,0 +1,4 @@
+dyld_stub_binder
+_printf
+_main
+__mh_execute_header

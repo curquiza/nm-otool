@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   file64_main.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: curquiza <curquiza@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/06/26 13:29:05 by curquiza          #+#    #+#             */
+/*   Updated: 2019/06/26 13:29:08 by curquiza         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_nm.h"
 
 static void		get_one_symbol(t_bin_file *file, struct nlist_64 *nlist,
@@ -28,12 +40,12 @@ static t_ex_ret	get_symbols_output(t_bin_file *file)
 		+ swap_uint32_if(file->symtab_lc->symoff, file->endian),
 		sizeof(*nlist) * nsyms);
 	if (!nlist)
-		return (ft_ret_err2(file->filename, FILE_END_ERR));
+		return (ft_ret_err2(file->filename, MALF_OBJ_ERR));
 	string_table = check_and_move(file,
 		file->ptr + swap_uint32_if(file->symtab_lc->stroff, file->endian),
 		sizeof(*string_table));
 	if (!string_table)
-		return (ft_ret_err2(file->filename, FILE_END_ERR));
+		return (ft_ret_err2(file->filename, MALF_OBJ_ERR));
 	i = 0;
 	while (i < nsyms)
 	{

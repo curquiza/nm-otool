@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: curquiza <curquiza@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/06/26 13:28:04 by curquiza          #+#    #+#             */
+/*   Updated: 2019/06/26 13:28:04 by curquiza         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_nm.h"
 
 static t_ex_ret	process_all_files(int argc, char **argv, int first_file_index)
@@ -54,7 +66,3 @@ int				main(int argc, char **argv)
 		return (ret_usage());
 	return (process_all_arguments(argc, argv));
 }
-
-// TODO
-// - a.out si 0 file trouvé -> je vais pas le faire pour afficher l'usage
-// - ajouter des tests
